@@ -1,0 +1,878 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Crew AI</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="b9802040-ec0d-408b-bd9f-57cf04b9dad1" class="page sans"><header><h1 class="page-title">Crew AI</h1><p class="page-description"></p></header><div class="page-body"><p id="ee6f082d-16da-43df-bf91-3c3130762f31" class="">
+</p><ul id="0d516b79-ae62-458b-92e7-0b08ff4e88dc" class="bulleted-list"><li style="list-style-type:disc"><strong>Building Multi-Agent Systems:</strong> <ul id="a0f59807-2857-43e8-ab0f-e42945f37dca" class="bulleted-list"><li style="list-style-type:circle">CrewAI provides a framework for building teams of AI agents that can work together to tackle complex tasks. </li></ul><ul id="d915de03-33be-4392-8d87-592880810e27" class="bulleted-list"><li style="list-style-type:circle">You can define specific roles, goals, and even backstories for each agent in your &quot;crew.&quot; </li></ul><ul id="0b9a2652-679c-4487-8068-7d06f9d86eab" class="bulleted-list"><li style="list-style-type:circle">This allows you to automate complex, multi-step processes like tailoring a resume for a job application or planning an event.</li></ul></li></ul><ul id="4a41dafd-8272-41a9-b0ad-4c337ee3f26c" class="bulleted-list"><li style="list-style-type:disc"><strong>AI-powered Recruiting:</strong> <ul id="12b96f33-b6ae-408b-9ed6-40928e917905" class="bulleted-list"><li style="list-style-type:circle">There is also a separate platform called Crew AI that uses AI to help with recruiting and HR tasks. </li></ul><ul id="9ecc1304-00c1-4491-8901-fee88215f59d" class="bulleted-list"><li style="list-style-type:circle">This platform focuses on finding and hiring pre-vetted software talent. </li></ul><ul id="62da3cd5-1775-4518-9312-48df96e7bd33" class="bulleted-list"><li style="list-style-type:circle">It&#x27;s important to distinguish between these two uses of the term &quot;CrewAI&quot; based on the context.</li></ul></li></ul><p id="9ff783a1-b084-4d34-befb-baac3e5a2d51" class="">
+</p><ul id="f94d4f5f-3a63-4bd0-8724-a3e702459b87" class="toggle"><li><details open=""><summary>Simple </summary><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="f9024c83-0cb3-4fc7-a1de-264f8f7df8e1" class="code"><code class="language-Python">from crewai import Agent, Task, Crew
+from langchain_openai import ChatOpenAI
+
+# Initialize the language model with specific configurations
+llm = ChatOpenAI(
+    model=&quot;mistral&quot;,
+    base_url=&quot;http://localhost:11434/v1&quot;,
+    openai_api_key=&#x27;NA&#x27;
+)
+
+# Define agents with specific roles and goals
+legal_researcher_agent = Agent(
+    role=&quot;Legal Research Specialist&quot;,
+    goal=&quot;Provide accurate and relevant legal information&quot;,
+    backstory=(
+        &quot;You work at a law firm and are tasked with &quot;
+        &quot;conducting research for a case involving {topic}. &quot;
+        &quot;Your expertise will help the legal team build a strong argument.&quot;
+    ),
+    allow_delegation=False,
+    verbose=True,
+    llm=llm
+)
+
+legal_writer_agent = Agent(
+    role=&quot;Legal Document Drafter&quot;,
+    goal=&quot;Craft clear and persuasive legal documents&quot;,
+    backstory=(
+        &quot;You are a legal writer responsible for drafting &quot;
+        &quot;a legal brief on {topic} for an upcoming court case. &quot;
+        &quot;Your document must be well-researched, concise, and compelling.&quot;
+    ),
+    allow_delegation=False,
+    verbose=True,
+    llm=llm
+)
+
+# Define tasks for the agents to perform
+conduct_legal_research = Task(
+    description=(
+        &quot;1. Investigate relevant laws, regulations, and precedents.\n&quot;
+        &quot;2. Analyze legal articles, journals, and expert opinions.\n&quot;
+        &quot;3. Identify key points and arguments related to {topic}.\n&quot;
+        &quot;4. Organize and summarize findings in a clear and concise manner.&quot;
+    ),
+    expected_output=(
+        &quot;A comprehensive legal research report &quot;
+        &quot;including relevant sources and key points.&quot;
+    ),
+    agent=legal_researcher_agent
+)
+
+draft_legal_brief = Task(
+    description=(
+        &quot;1. Use the research report to draft a clear and persuasive brief.\n&quot;
+        &quot;2. Include an introduction, argument, and conclusion.\n&quot;
+        &quot;3. Ensure the brief is well-structured and easy to follow.\n&quot;
+        &quot;4. Proofread for grammar, punctuation, and legal accuracy.&quot;
+    ),
+    expected_output=(
+        &quot;A well-written legal brief in markdown format, &quot;
+        &quot;ready for submission to the legal team.&quot;
+    ),
+    agent=legal_writer_agent
+)
+
+# Initialize the crew with agents and tasks
+crew = Crew(
+    agents=[legal_researcher_agent, legal_writer_agent],
+    tasks=[conduct_legal_research, draft_legal_brief],
+    verbose=2
+)
+
+# Start the workflow with a specific input
+result = crew.kickoff(inputs={&quot;topic&quot;: &quot;Employment Law and Discrimination&quot;})
+</code></pre></details></li></ul><p id="5d9b1d1b-b1ab-4780-b722-68ec355d8b03" class="">
+</p><ul id="df70a716-f035-44db-9aab-79881cba01dd" class="toggle"><li><details open=""><summary>Advanced </summary><ol type="1" id="bb46b9f2-c4dc-46ac-984d-2db4e181220a" class="numbered-list" start="1"><li><strong><a href="http://MarkdownTools.py">MarkdownTools.py</a></strong><strong> file</strong></li></ol><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="7f465d62-81d5-4243-b17f-4b42bd6a7b0d" class="code"><code class="language-Python">import os
+import sys
+from langchain.tools import tool
+from pymarkdown.api import PyMarkdownApi, PyMarkdownApiException
+
+@tool(&quot;markdown_validation_tool&quot;)
+def markdown_validation_tool(file_path: str) -&gt; str:
+    print(&quot;\n\nValidating Markdown syntax...\n\n&quot; + file_path)
+
+    scan_result = None
+    try:
+        if not (os.path.exists(file_path)):
+           return &quot;Could not validate file. The provided file path does not exist.&quot;
+
+        scan_result = PyMarkdownApi().scan_path(file_path.rstrip().lstrip())
+        results = str(scan_result)    
+        return results  # Return the reviewed document
+    except PyMarkdownApiException as this_exception:
+        print(f&quot;API Exception: {this_exception}&quot;, file=sys.stderr)
+        return f&quot;API Exception: {str(this_exception)}&quot;
+  </code></pre><ol type="1" id="80e01f7c-d1de-4e75-a37b-2d8a31a16295" class="numbered-list" start="2"><li><code>.env</code> file</li></ol><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="33e91f14-beed-4b3c-9c34-8a57c373228c" class="code"><code class="language-Python"># Using OpenAI&#x27;s API
+# OPENAI_API_KEY=&quot;sk-...&quot;
+# MODEL_NAME=&quot;gpt-3.5-turbo&quot;
+
+# Using Ollama
+MODEL_NAME=&#x27;llama3&#x27;
+OPENAI_API_BASE_URL=&quot;http://localhost:11434/v1&quot;
+OPENAI_API_KEY=&#x27;ollama&#x27;</code></pre><ol type="1" id="7218a00c-1003-4226-b7ec-7cdfce9c07f3" class="numbered-list" start="3"><li><strong><a href="http://main.py">main.py</a></strong><strong> file</strong></li></ol><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="6f8872ab-6057-486e-bf0e-e1c666bf34a0" class="code"><code class="language-Python">import sys
+from crewai import Agent, Task
+import os
+from dotenv import load_dotenv
+from langchain.tools import tool
+from langchain.chat_models.openai import ChatOpenAI
+from pymarkdown.api import PyMarkdownApi, PyMarkdownApiException
+from MarkdownTools import markdown_validation_tool
+
+load_dotenv()
+
+defalut_llm = ChatOpenAI(openai_api_base=os.environ.get(&quot;OPENAI_API_BASE_URL&quot;, &quot;https://api.openai.com/v1&quot;),
+                        openai_api_key=os.environ.get(&quot;OPENAI_API_KEY&quot;),
+                        temperature=0.1,                        
+                        model_name=os.environ.get(&quot;MODEL_NAME&quot;, &quot;gpt-3.5-turbo&quot;),
+                        top_p=0.3)
+
+
+
+def process_markdown_document(filename):
+    # Define general agent
+    general_agent  = Agent(role=&#x27;Requirements Manager&#x27;,
+                    goal=&quot;&quot;&quot;Provide a detailed list of the markdown 
+                            linting results. Give a summary with actionable 
+                            tasks to address the validation results. Write your 
+                            response as if you were handing it to a developer 
+                            to fix the issues.
+                            DO NOT provide examples of how to fix the issues or
+                            recommend other tools to use.&quot;&quot;&quot;,
+                    backstory=&quot;&quot;&quot;You are an expert business analyst 
+					and software QA specialist. You provide high quality, 
+                    thorough, insightful and actionable feedback via 
+                    detailed list of changes and actionable tasks.&quot;&quot;&quot;,
+                    allow_delegation=False, 
+                    verbose=True,
+                    tools=[markdown_validation_tool],
+                    llm=defalut_llm)
+
+
+    # Define Tasks Using Crew Tools
+    syntax_review_task = Task(description=f&quot;&quot;&quot;
+			Use the markdown_validation_tool to review 
+			the file(s) at this path: {filename}
+            
+			Be sure to pass only the file path to the markdown_validation_tool.
+			Use the following format to call the markdown_validation_tool:
+			Do I need to use a tool? Yes
+			Action: markdown_validation_tool
+			Action Input: {filename}
+
+			Get the validation results from the tool 
+			and then summarize it into a list of changes
+			the developer should make to the document.
+            DO NOT recommend ways to update the document.
+            DO NOT change any of the content of the document or
+            add content to it. It is critical to your task to
+            only respond with a list of changes.
+			
+			If you already know the answer or if you do not need 
+			to use a tool, return it as your Final Answer.&quot;&quot;&quot;,
+            agent=general_agent)
+    
+    updated_markdown = syntax_review_task.execute()
+
+    return updated_markdown
+
+# If called directly from the command line take the first argument as the filename
+if __name__ == &quot;__main__&quot;:
+    if len(sys.argv) &gt; 1:
+        filename = sys.argv[1]
+        processed_document = process_markdown_document(filename)
+        print(processed_document)</code></pre><ol type="1" id="57c02d7e-46ae-4e52-ae46-9850dd3ec72a" class="numbered-list" start="4"><li>pyproject.toml</li></ol><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="b04eb535-82c4-45a7-95cf-d6c59e89f28f" class="code"><code class="language-Python">[tool.poetry]
+name = &quot;markdown-validation-crew&quot;
+version = &quot;0.1.0&quot;
+description = &quot;&quot;
+authors = [&quot;ITLackey &lt;itlackey@gmail.com&gt;&quot;]
+
+[tool.poetry.dependencies]
+python = &quot;&gt;=3.10.0,&lt;3.12&quot;
+crewai = &quot;^0.11.0&quot;
+python-dotenv = &quot;1.0.0&quot;
+markdown = &quot;3.4.3&quot;
+pymarkdownlnt = &quot;0.9.15&quot;
+
+[tool.pyright]
+# https://github.com/microsoft/pyright/blob/main/docs/configuration.md
+useLibraryCodeForTypes = true
+exclude = [&quot;.cache&quot;]
+
+[tool.ruff]
+# https://beta.ruff.rs/docs/configuration/
+select = [&#x27;E&#x27;, &#x27;W&#x27;, &#x27;F&#x27;, &#x27;I&#x27;, &#x27;B&#x27;, &#x27;C4&#x27;, &#x27;ARG&#x27;, &#x27;SIM&#x27;]
+ignore = [&#x27;W291&#x27;, &#x27;W292&#x27;, &#x27;W293&#x27;]
+
+[build-system]
+requires = [&quot;poetry-core&gt;=1.0.0&quot;]
+build-backend = &quot;poetry.core.masonry.api&quot;</code></pre></details></li></ul><ul id="873b67a5-3666-47fa-8be4-85203bcb8a26" class="toggle"><li><details open=""><summary>Process of Running </summary><ul id="69eef5e3-b593-4ac5-9e69-3edfc99c4094" class="bulleted-list"><li style="list-style-type:disc"><strong>Configure Environment</strong>: Copy ``.env.example` and set up the environment variables the model, endpoint url, and api key.</li></ul><ul id="0a197174-83d8-49ea-9cb1-f8ad47d0b35f" class="bulleted-list"><li style="list-style-type:disc"><strong>Install Dependencies</strong>: Run <code>poetry install --no-root</code>.</li></ul><ul id="3037e65a-28a1-4dce-8886-caa7ff36f424" class="bulleted-list"><li style="list-style-type:disc"><strong>Running the Script</strong>: Execute <code>python main.py &lt;path to markdown file&gt;</code>. The script will leverage the CrewAI framework to process the specified file and return a list of changes.<ul id="440a3533-87aa-4902-8a1f-602ffd426b14" class="bulleted-list"><li style="list-style-type:circle"><strong>Execute the Script</strong>: Run <code>python main.py README.md</code></li></ul></li></ul></details></li></ul></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

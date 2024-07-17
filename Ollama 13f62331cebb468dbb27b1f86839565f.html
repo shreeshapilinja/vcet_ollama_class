@@ -1,0 +1,677 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>                          Ollama</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="13f62331-cebb-468d-bb27-b1f86839565f" class="page sans"><header><img class="page-cover-image" src="Ollama%2013f62331cebb468dbb27b1f86839565f/vcet_(1).png" style="object-position:center 48.95%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="Ollama%2013f62331cebb468dbb27b1f86839565f/ollama.jpg"/></div><h1 class="page-title">                          Ollama</h1><p class="page-description"></p></header><div class="page-body"><p id="4cd5f7d1-80dc-4a31-9805-05c28f2f8fc8" class="">Ollama is a powerful tool that allows you to run large language models (LLMs) directly on your computer. This means you can interact with these complex AI models without relying on cloud services or internet access. <strong>Think like Docker for LLMs.</strong></p><figure id="5f7b18ae-6f9d-4a4b-a3ed-b51bd4e0970a" class="image"><a href="Ollama%2013f62331cebb468dbb27b1f86839565f/aaa.png"><img style="width:512px" src="Ollama%2013f62331cebb468dbb27b1f86839565f/aaa.png"/></a></figure><h3 id="37c53e4f-594b-49f1-8339-2e7dc5803501" class="">Use-cases of model creators</h3><ul id="9c610c13-4a45-4975-a9f3-c5441ca997c4" class="bulleted-list"><li style="list-style-type:disc">Content Creation and Communication<ul id="2b04f2cd-13d2-4955-8f6f-daf01a7c2841" class="bulleted-list"><li style="list-style-type:circle">Text Generation: These models can be used to generate creative text formats such as poems, scripts, code, marketing copy, and email drafts.</li></ul><ul id="53ebe54e-d63d-412b-8f29-0232cde64be6" class="bulleted-list"><li style="list-style-type:circle">Chatbots and Conversational AI: Power conversational interfaces for customer service, virtual assistants, or interactive applications.</li></ul><ul id="b6d738f6-5e8d-45a1-b791-9df609af2008" class="bulleted-list"><li style="list-style-type:circle">Text Summarization: Generate concise summaries of a text corpus, research papers, or reports.</li></ul><ul id="94148aeb-bad1-41ab-a3a3-689fc52c2285" class="bulleted-list"><li style="list-style-type:circle">Automation: Efficient and streamlined bulk email sending system that enables users to send large volumes of emails effortlessly, ensuring timely and consistent communication with a vast audience.</li></ul></li></ul><ul id="0a20934c-35c1-4352-aa26-81e9accd9ee8" class="bulleted-list"><li style="list-style-type:disc">Research and Education<ul id="3db70cc7-1231-4113-a8a0-484806ea7317" class="bulleted-list"><li style="list-style-type:circle">Natural Language Processing (NLP) Research: These models can serve as a foundation for researchers to experiment with NLP techniques, develop algorithms, and contribute to the advancement of the field.</li></ul><ul id="e9c5abc5-7da3-4584-ada0-c09b5d092401" class="bulleted-list"><li style="list-style-type:circle">Language Learning Tools: Support interactive language learning experiences, aiding in grammar correction or providing writing practice.</li></ul><ul id="806a8328-be0f-4e62-907d-72a648868622" class="bulleted-list"><li style="list-style-type:circle">Knowledge Exploration: Assist researchers in exploring large bodies of text by generating summaries or answering questions about specific topics.</li></ul></li></ul><hr id="1f3f59e8-772f-4b99-a2ca-cb6a89e2c552"/><h2 id="8b364568-ab9c-4634-a474-95b36cd47dc7" class=""><mark class="highlight-red"><strong><span style="border-bottom:0.05em solid">Table of Content</span></strong></mark></h2><figure id="40b4ab4f-1885-4eec-a3d2-d1096f92dcd1" class="link-to-page"><a href="Ollama%2013f62331cebb468dbb27b1f86839565f/Installation%2040b4ab4f18854eeca3d2d1096f92dcd1.html"><img class="icon" src="Ollama%2013f62331cebb468dbb27b1f86839565f/Installation%2040b4ab4f18854eeca3d2d1096f92dcd1/icons8-installation-50.png"/>Installation</a></figure><figure id="5954dc0d-b731-446a-8532-8fea162c568f" class="link-to-page"><a href="Ollama%2013f62331cebb468dbb27b1f86839565f/Model%20Acquisition%205954dc0db731446a85328fea162c568f.html"><img class="icon" src="Ollama%2013f62331cebb468dbb27b1f86839565f/Model%20Acquisition%205954dc0db731446a85328fea162c568f/9361729.png"/>Model Acquisition</a></figure><figure id="e8e36edb-d8df-438c-9177-7f22c746ae67" class="link-to-page"><a href="Ollama%2013f62331cebb468dbb27b1f86839565f/Running%20the%20Model%20e8e36edbd8df438c91777f22c746ae67.html"><img class="icon" src="Ollama%2013f62331cebb468dbb27b1f86839565f/Running%20the%20Model%20e8e36edbd8df438c91777f22c746ae67/unnamed.png"/>Running the Model</a></figure><figure id="5dfc3905-2375-4a66-957f-d7f0ec2d328f" class="link-to-page"><a href="Ollama%2013f62331cebb468dbb27b1f86839565f/Customization%205dfc390523754a66957fd7f0ec2d328f.html"><img class="icon" src="Ollama%2013f62331cebb468dbb27b1f86839565f/Customization%205dfc390523754a66957fd7f0ec2d328f/unnamed_(1).png"/>Customization</a></figure><figure id="c0c45033-7e2e-47a9-8446-b5f68aa49c6a" class="link-to-page"><a href="Ollama%2013f62331cebb468dbb27b1f86839565f/Create%20Your%20Own%20Model%20c0c450337e2e47a98446b5f68aa49c6a.html"><img class="icon" src="Ollama%2013f62331cebb468dbb27b1f86839565f/Create%20Your%20Own%20Model%20c0c450337e2e47a98446b5f68aa49c6a/Gemini_Generated_Image_6uanbq6uanbq6uan.jpg"/>Create Your Own Model</a></figure><figure id="84b82bfc-f339-4c79-93db-0c3ab578ae6d" class="link-to-page"><a href="Ollama%2013f62331cebb468dbb27b1f86839565f/Rest%20API%20call%20using%20curl%2084b82bfcf3394c7993db0c3ab578ae6d.html"><img class="icon" src="Ollama%2013f62331cebb468dbb27b1f86839565f/Rest%20API%20call%20using%20curl%2084b82bfcf3394c7993db0c3ab578ae6d/download_(2).png"/>Rest API call using curl</a></figure><figure id="4c71b824-be58-42f4-a152-7ca786e12283" class="link-to-page"><a href="Ollama%2013f62331cebb468dbb27b1f86839565f/Python%20Environment%20Setup%204c71b824be5842f4a1527ca786e12283.html"><img class="icon" src="Ollama%2013f62331cebb468dbb27b1f86839565f/Python%20Environment%20Setup%204c71b824be5842f4a1527ca786e12283/download.jpg"/>Python Environment Setup</a></figure><figure id="18524746-703a-4c93-89a2-f4e3f6203bcb" class="link-to-page"><a href="Ollama%2013f62331cebb468dbb27b1f86839565f/Using%20Python%20Libraries%20with%20Ollama%2018524746703a4c9389a2f4e3f6203bcb.html"><img class="icon" src="Ollama%2013f62331cebb468dbb27b1f86839565f/Using%20Python%20Libraries%20with%20Ollama%2018524746703a4c9389a2f4e3f6203bcb/Gemini_Generated_Image_htnidyhtnidyhtni.jpeg"/>Using Python Libraries with Ollama</a></figure><figure id="b230996c-a327-4241-a66b-82f7ef991950" class="link-to-page"><a href="Ollama%2013f62331cebb468dbb27b1f86839565f/Production%20Ready%20Conversational%20AI%20b230996ca3274241a66b82f7ef991950.html"><img class="icon" src="Ollama%2013f62331cebb468dbb27b1f86839565f/Production%20Ready%20Conversational%20AI%20b230996ca3274241a66b82f7ef991950/Gemini_Generated_Image_b9zjavb9zjavb9zj.jpeg"/>Production Ready Conversational AI</a></figure><figure id="58d4a93d-25b1-4943-b3b2-4fa287041f9a" class="link-to-page"><a href="Ollama%2013f62331cebb468dbb27b1f86839565f/Chat%20to%20Voice%2058d4a93d25b14943b3b24fa287041f9a.html"><img class="icon" src="Ollama%2013f62331cebb468dbb27b1f86839565f/Chat%20to%20Voice%2058d4a93d25b14943b3b24fa287041f9a/Gemini_Generated_Image_djgqs6djgqs6djgq.jpeg"/>Chat to Voice</a></figure><figure id="ab4dca4b-19ca-4cdb-91c5-155bfaf07e2a" class="link-to-page"><a href="Ollama%2013f62331cebb468dbb27b1f86839565f/VS%20Code%20Extension%20ab4dca4b19ca4cdb91c5155bfaf07e2a.html"><img class="icon" src="Ollama%2013f62331cebb468dbb27b1f86839565f/VS%20Code%20Extension%20ab4dca4b19ca4cdb91c5155bfaf07e2a/Gemini_Generated_Image_3za5k13za5k13za5.jpeg"/>VS Code Extension </a></figure><figure id="9d8e1a35-ec98-474e-83dd-d93828184fd6" class="link-to-page"><a href="Ollama%2013f62331cebb468dbb27b1f86839565f/Function%20calling%209d8e1a35ec98474e83ddd93828184fd6.html"><img class="icon" src="Ollama%2013f62331cebb468dbb27b1f86839565f/Function%20calling%209d8e1a35ec98474e83ddd93828184fd6/unnamed.png"/>Function calling </a></figure><figure id="1e35862b-faef-4891-965a-9f65506c8782" class="link-to-page"><a href="Ollama%2013f62331cebb468dbb27b1f86839565f/Extras%20Advanced%201e35862bfaef4891965a9f65506c8782.html"><img class="icon" src="Ollama%2013f62331cebb468dbb27b1f86839565f/Extras%20Advanced%201e35862bfaef4891965a9f65506c8782/Gemini_Generated_Image_5yk9vm5yk9vm5yk9.jpeg"/>Extras Advanced</a></figure></div></article><span class="sans" style="font-size:14px;padding-top:2em"><hr/><details open="" style="padding-top:1em"><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Page comments</summary><div class="indented"><div><ul class="toggle"><li><div><span class="user" style="padding:0.2em"><img src="https://s3-us-west-2.amazonaws.com/public.notion-static.com/703eb60b-960d-477c-9cff-7ee54c38f7f8/Shreesha_photo.jpg" class="icon user-icon"/><span><b>Shreesha B</b> <time style="font-size:0.8em">Jul 15, 2024, 6:08 PM</time></span></span></div><div style="padding:0.2em">Built By Shreesha B</div><div style="padding:0.3em"></div></li></ul></div><hr/></div></details></span></body></html>

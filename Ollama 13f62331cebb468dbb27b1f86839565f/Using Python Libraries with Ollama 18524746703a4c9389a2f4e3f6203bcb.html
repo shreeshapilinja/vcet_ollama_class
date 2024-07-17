@@ -1,0 +1,952 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Using Python Libraries with Ollama</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="18524746-703a-4c93-89a2-f4e3f6203bcb" class="page sans"><header><div class="page-header-icon undefined"><img class="icon" src="Using%20Python%20Libraries%20with%20Ollama%2018524746703a4c9389a2f4e3f6203bcb/Gemini_Generated_Image_htnidyhtnidyhtni.jpeg"/></div><h1 class="page-title">Using Python Libraries with Ollama</h1><p class="page-description"></p></header><div class="page-body"><p id="019f7fca-470a-4dce-a6cc-444cf8e35fd3" class="">
+</p><figure class="block-color-teal_background callout" style="white-space:pre-wrap;display:flex" id="72d7ce61-6ec2-40b5-9f99-ddad15119054"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><mark class="highlight-purple"><strong>When the app is running, all models are automatically served on </strong></mark><mark class="highlight-red"><code><strong>localhost:11434</strong></code></mark></div></figure><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Basics information required </summary><div class="indented"><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">1. Streaming</summary><div class="indented"><p id="9c76ab52-96fb-4296-9420-d468cc4bf219" class=""><strong>Streaming generation</strong> involves producing and delivering the output incrementally as it is generated. This approach has several benefits:<div class="indented"><ul id="5bca84e3-24f9-452a-b364-636064e359a6" class="bulleted-list"><li style="list-style-type:disc"><strong>Faster initial response</strong>: Users start receiving parts of the response sooner, improving perceived responsiveness.</li></ul><ul id="bde7aa20-0b72-473d-a8ff-d22652245404" class="bulleted-list"><li style="list-style-type:disc"><strong>Interactive use cases</strong>: Useful in interactive applications like chatbots, where users can see and start processing parts of the answer before the entire response is complete.</li></ul><ul id="05a88757-e7a7-4018-8899-ecea9737abe5" class="bulleted-list"><li style="list-style-type:disc"><strong>Reduced latency</strong>: For large outputs, streaming reduces the waiting time by splitting it into smaller chunks.</li></ul><p id="cc85bb65-db1f-42c5-8465-c99912af2535" class=""><strong>Example in context</strong>: When you ask a question to a chatbot, and it starts responding immediately, giving you one word or sentence at a time, that&#x27;s streaming.</p></div></p></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">2. Non-Streaming</summary><div class="indented"><p id="592d48f7-8243-4b37-98f2-e12ac4ea9dd8" class=""><strong>Non-streaming generation</strong> involves generating the entire output first and then delivering it as a single chunk. This method also has its advantages:<div class="indented"><ul id="89ce4875-ce3b-4b21-a11a-52d639b80950" class="bulleted-list"><li style="list-style-type:disc"><strong>Consistency</strong>: The model can ensure that the entire response is coherent and complete before delivering it.</li></ul><ul id="ddd1e2c7-aa66-4da9-a48f-d13a6cac0d7f" class="bulleted-list"><li style="list-style-type:disc"><strong>Batch processing</strong>: Suitable for applications where responses need to be processed in bulk or stored before delivery.</li></ul><ul id="3848d457-4021-4c15-9c3a-c39f9360e847" class="bulleted-list"><li style="list-style-type:disc"><strong>Use in backend processes</strong>: Often used in scenarios where immediate interaction isn&#x27;t required, such as generating reports or documents.</li></ul><p id="2e622078-fce2-4d17-852d-a8574fea5446" class=""><strong>Example in context</strong>: When you submit a form and receive a fully compiled response only after processing is complete, that&#x27;s non-streaming.</p></div></p></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0"><strong>3. Generate</strong></summary><div class="indented"><p id="b1ad29b3-bc7c-42b9-afb0-f3562291b246" class=""><strong>Generate </strong>refers to the model producing text based on a given prompt without expecting further interaction. The generated text is typically a single, continuous output.</p></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0"><strong>4. Chat</strong></summary><div class="indented"><p id="98b69b91-9697-46d5-9282-f41b50b6c5b8" class=""><strong>Chat </strong>involves interactive dialogue between the user and the model, where the model responds to user inputs iteratively. This interaction can involve multiple exchanges, allowing for more dynamic and contextual responses.</p></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">5. Request  Status codes</summary><div class="indented"><table id="b00a6d7f-f591-4a05-b7d1-e9c7cc7c2fb9" class="simple-table"><tbody><tr id="03b2b009-49f2-437c-a380-97064b9fa00d"><td id="ec^r" class="">Status Code</td><td id="Kbme" class="">Meaning</td><td id="DXFk" class="">Description</td></tr><tr id="a14de9b5-12b7-48ef-9e9c-2d5d8a555d9a"><td id="ec^r" class="">200</td><td id="Kbme" class="">OK</td><td id="DXFk" class="">The request has succeeded.</td></tr><tr id="5d24be59-2386-49b2-8792-4649b9226999"><td id="ec^r" class="">201</td><td id="Kbme" class="">Created</td><td id="DXFk" class="">The request has been fulfilled, resulting in the creation of a new resource.</td></tr><tr id="293b08bc-8312-4d16-bddb-ae96320bd8d8"><td id="ec^r" class="">400</td><td id="Kbme" class="">Bad Request</td><td id="DXFk" class="">The server could not understand the request due to invalid syntax.</td></tr><tr id="49c7f772-0548-46d2-8610-8246acd64e19"><td id="ec^r" class="">401</td><td id="Kbme" class="">Unauthorized</td><td id="DXFk" class="">The client must authenticate itself to get the requested response.</td></tr><tr id="8a7362ed-178f-4a8e-9a04-1ba6ee640e1f"><td id="ec^r" class="">403</td><td id="Kbme" class="">Forbidden</td><td id="DXFk" class="">The client does not have access rights to the content.</td></tr><tr id="f8b890cd-d48b-498c-b7b5-54aebf10695e"><td id="ec^r" class="">404</td><td id="Kbme" class="">Not Found</td><td id="DXFk" class="">The server can not find the requested resource.</td></tr><tr id="3cc22198-3c73-4a0b-a735-4441d5dca596"><td id="ec^r" class="">500</td><td id="Kbme" class="">Internal Server Error</td><td id="DXFk" class="">The server has encountered a situation it doesn&#x27;t know how to handle.</td></tr><tr id="197d1d54-cfa1-45c3-97c1-371542c845a0"><td id="ec^r" class="">503</td><td id="Kbme" class="">Service Unavailable</td><td id="DXFk" class="">The server is not ready to handle the request.</td></tr></tbody></table></div></details></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0"><mark class="highlight-pink">Using ollama library </mark></summary><div class="indented"><ul id="6356d059-23ba-4a0a-9c7c-465599386d6e" class="bulleted-list"><li style="list-style-type:disc">Ollama has a Python library that makes it easier to build Python apps using various LLMs on your own machine.</li></ul><ol type="1" id="059aa48f-5d80-4d5c-bd39-962b3e6e6335" class="numbered-list" start="1"><li><mark class="highlight-red"><strong>Generating Content </strong></mark></li></ol><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="05a09079-690a-4f97-9044-a5cdf5f46fe9" class="code"><code class="language-Python">from ollama import generate
+
+model = &quot;qwen2:0.5b&quot;
+system_instruction = &quot;You are a helpful assistant.&quot;
+
+user_input = input(&quot;You: &quot;)
+
+response = generate(model=model, prompt=user_input, system=system_instruction, stream=False)
+print(response[&#x27;response&#x27;])</code></pre><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="83fc1340-9ac0-40c6-adcb-c4d35e25866c" class="code"><code class="language-Python">from ollama import generate
+
+model = &quot;qwen2:0.5b&quot;
+system_instruction = &quot;You are a helpful assistant.&quot;
+
+user_input = input(&quot;You: &quot;)
+
+for part in generate(model=model, prompt=user_input, system=system_instruction, stream=True):
+    print(part[&#x27;response&#x27;], end=&#x27;&#x27;, flush=True)</code></pre><ol type="1" id="c46a0eea-6320-48d0-9c5a-90170fc89686" class="numbered-list" start="2"><li><mark class="highlight-red"><strong>Chatting </strong></mark></li></ol><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="5b7e780f-830a-4360-b04a-998c70396612" class="code"><code class="language-Python">from ollama import chat
+
+model = &quot;qwen2:0.5b&quot;
+chat_history = []
+
+while True:
+    user_input = input(&quot;You: &quot;)
+    
+    if user_input == &quot;bye&quot;:
+        break
+        
+    chat_history.append({&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: user_input})
+    
+    response = chat(model, messages=chat_history, stream=False) 
+    reply = response[&#x27;message&#x27;][&#x27;content&#x27;]
+    
+    chat_history.append({&#x27;role&#x27;: &#x27;assistant&#x27;, &#x27;content&#x27;: reply})
+    print(&quot;Bot:&quot;,reply)</code></pre><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="50cd99e5-c1ba-459c-831a-db4de7eebcac" class="code"><code class="language-Python">from ollama import chat
+
+model = &quot;qwen2:0.5b&quot;
+chat_history = []
+
+while True:
+    user_input = input(&quot;You: &quot;)
+    
+    if user_input == &quot;bye&quot;:
+        break
+    chat_history.append({&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: user_input})
+    
+    stream = chat(model, messages=chat_history, stream=True) 
+    reply = &#x27;&#x27;
+    for chunk in stream:
+        reply += chunk[&#x27;message&#x27;][&#x27;content&#x27;]
+        print(chunk[&#x27;message&#x27;][&#x27;content&#x27;], end=&#x27;&#x27;, flush=True)
+        
+    print()
+    chat_history.append({&#x27;role&#x27;: &#x27;assistant&#x27;, &#x27;content&#x27;: reply})</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0"><mark class="highlight-brown">Using requests library </mark></summary><div class="indented"><ul id="7a26b0ad-94a3-4137-b192-3f4d3b582417" class="bulleted-list"><li style="list-style-type:disc">The requests library can be used to interact with Ollama&#x27;s API for both streaming and non-streaming generation. </li></ul><ol type="1" id="cf71006f-ba1c-4a96-9d23-871372095185" class="numbered-list" start="1"><li><mark class="highlight-red"><strong>Generating Content </strong></mark><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="ba3e66bf-ab78-451d-93c2-29eef691a340" class="code"><code class="language-Python">import requests
+import json
+
+URL = &quot;http://localhost:11434/api/generate&quot;
+
+system_instruction = &quot;You are a helpful assistant.&quot;
+
+headers = {
+    &quot;Content-Type&quot;: &quot;application/json&quot;,
+}
+
+while True:
+    user_input = input(&quot;You: &quot;)
+
+    if user_input == &quot;bye&quot;:
+        break
+    
+    payload = {
+      &quot;model&quot;: &quot;llama3&quot;,
+      &quot;prompt&quot;: user_input,
+      &quot;stream&quot;: False,
+      &quot;system&quot;: system_instruction,
+      &quot;keep_alive&quot;: 600
+    }
+    
+    response = requests.post(URL, headers=headers, json=payload)
+
+    if response.status_code == 200:
+        json_data = json.loads(response.text)
+        text_content = json_data[&quot;response&quot;]
+        print(&quot;Bot:&quot;, text_content)
+    else:
+        print(&quot;!!!! Sorry there was an error !!!!&quot;)
+        break</code></pre><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="d11bf701-9f92-4327-9c8d-d25994ad65f1" class="code"><code class="language-Python">import json
+import requests
+
+model = &#x27;qwen2:0.5b&#x27;
+context = []
+
+def generate(prompt, context):
+    r = requests.post(&#x27;http://localhost:11434/api/generate&#x27;,
+                      json={
+                          &#x27;model&#x27;: model,
+                          &#x27;prompt&#x27;: prompt,
+                          &#x27;context&#x27;: context,
+                      },
+                      stream=True)
+    r.raise_for_status()
+
+    for line in r.iter_lines():
+        body = json.loads(line)
+        response_part = body.get(&#x27;response&#x27;, &#x27;&#x27;)
+        print(response_part, end=&#x27;&#x27;, flush=True)
+
+        if &#x27;error&#x27; in body:
+            raise Exception(body[&#x27;error&#x27;])
+
+        if body.get(&#x27;done&#x27;, False):
+            return body[&#x27;context&#x27;]
+
+while True:
+    user_input = input(&quot;You: &quot;)
+    if not user_input:
+        exit()
+
+    context = generate(user_input, context)
+    print()</code></pre></li></ol><ol type="1" id="5744beeb-03bf-4748-adb0-6110eac6d960" class="numbered-list" start="2"><li><mark class="highlight-red"><strong>Chatting </strong></mark><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="ecd22e84-a7c6-495e-9e9f-81999caf1cf8" class="code"><code class="language-Python">import requests
+import json
+
+URL = &quot;http://localhost:11434/api/chat&quot;
+
+system_instruction = &quot;You are a helpful assistant.&quot;
+
+headers = {
+    &quot;Content-Type&quot;: &quot;application/json&quot;,
+}
+
+messages_history = []
+
+while True:
+    user_input = input(&quot;You: &quot;)
+
+    if user_input == &quot;bye&quot;:
+        break
+    
+    messages_history.append({&quot;role&quot;: &quot;user&quot;,&quot;content&quot;: user_input},)
+    
+    payload = {
+      &quot;model&quot;: &quot;qwen2:0.5b&quot;,
+      &quot;messages&quot;: messages_history,
+      &quot;stream&quot;: False,
+      &quot;system&quot;: system_instruction,
+      &quot;keep_alive&quot;: 150
+    }
+    
+    response = requests.post(URL, headers=headers, json=payload)
+
+    if response.status_code == 200:
+        json_data = json.loads(response.text)
+        text_content = json_data[&quot;message&quot;][&quot;content&quot;]
+        messages_history.append({&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: text_content})
+        print(&quot;Bot:&quot;, text_content)
+    else:
+        print(&quot;!!!! Sorry there was an error !!!!&quot;)
+        break
+</code></pre><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="906ad3e7-e9c5-4c29-a3cd-ec5ac109ab22" class="code"><code class="language-Python">import json
+import requests
+
+model = &quot;qwen2:0.5b&quot;
+messages = []
+
+def chat(messages):
+    r = requests.post(
+        &quot;http://localhost:11434/api/chat&quot;,
+        json={&quot;model&quot;: model, &quot;messages&quot;: messages, &quot;stream&quot;: True},
+	stream=True
+    )
+    r.raise_for_status()
+    output = &quot;&quot;
+
+    for line in r.iter_lines():
+        body = json.loads(line)
+        if &quot;error&quot; in body:
+            raise Exception(body[&quot;error&quot;])
+        if body.get(&quot;done&quot;) is False:
+            message = body.get(&quot;message&quot;, &quot;&quot;)
+            content = message.get(&quot;content&quot;, &quot;&quot;)
+            output += content
+            # the response streams one token at a time, print that as we receive it
+            print(content, end=&quot;&quot;, flush=True)
+
+        if body.get(&quot;done&quot;, False):
+            message[&quot;content&quot;] = output
+            return message
+
+while True:
+    user_input = input(&quot;You: &quot;)
+    
+    if not user_input:
+        exit()
+            
+    messages.append({&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: user_input})
+    message = chat(messages)
+    messages.append(message)
+    print(&quot;\n&quot;)</code></pre></li></ol></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0"><mark class="highlight-teal">Using openai library </mark></summary><div class="indented"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="a961537d-9774-4899-a216-340153fabceb" class="code"><code class="language-Python">from openai import OpenAI
+
+client = OpenAI(
+    base_url=&#x27;http://localhost:11434/v1/&#x27;,
+    api_key=&#x27;ollama&#x27;, # required but ignored
+)
+
+messages=[
+    {&#x27;role&#x27;: &#x27;system&#x27;,&#x27;content&#x27;: &#x27;You are a kind helpful assistant.&#x27;},
+]
+
+while True:
+    user_input = input(&quot;You: &quot;)
+    
+    if user_input == &quot;bye&quot;:
+        break
+    
+    messages.append({&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: user_input},)
+    
+    chat = client.chat.completions.create(
+        model=&quot;qwen2:0.5b&quot;, messages=messages
+    )
+    reply = chat.choices[0].message.content
+    messages.append({&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: reply})
+    
+    print(f&quot;Bot: {reply}&quot;)</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0"><mark class="highlight-orange">Using langchain library </mark></summary><div class="indented"><ul id="e1d8b188-8ab1-47ed-9811-aa25defbf2c4" class="bulleted-list"><li style="list-style-type:disc">Langchain is a versatile library that integrates with Ollama to streamline model invocations.</li></ul><ul id="56ad4ba9-0831-4bf9-a158-559afe62d248" class="bulleted-list"><li style="list-style-type:disc">Below is an example of how to use the Langchain library with an Ollama model:</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="7325eba7-c14d-47c4-b4f8-ba54a773e170" class="code"><code class="language-Python">from langchain_community.llms import Ollama
+
+llm = Ollama(model=&quot;qwen2:0.5b&quot;)
+response = llm.invoke(&quot;The function used to show output in python is ...&quot;)
+print(response)</code></pre><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="a7f69625-4e75-42ce-a899-7a9149c918aa" class="code"><code class="language-Python">from langchain.callbacks.manager import CallbackManager
+from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
+from langchain_community.llms import Ollama
+
+llm = Ollama(
+    model=&quot;qwen2:0.5b&quot;, callback_manager=CallbackManager([StreamingStdOutCallbackHandler()])
+)
+response = llm.invoke(&quot;The function used to show output in python is ...&quot;)
+print(response)</code></pre><p id="6cb990ea-9c42-44ae-9916-f8e6f90cf123" class="">
+</p></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0"><mark class="highlight-purple">Dealing with images using ollama library</mark></summary><div class="indented"><p id="897cd1a3-90c3-48ee-958d-26425152b5ea" class="">Download image here </p><div id="3e76d45b-b501-4536-8939-8cb40eb88c61" class="column-list"><div id="bd13e216-e5af-40d2-b471-f2daaf553090" style="width:46.666666666666664%" class="column"><figure id="4aca5fce-81c4-45ff-93c6-abe94e5f70e1" class="image" style="text-align:center"><a href="Using%20Python%20Libraries%20with%20Ollama%2018524746703a4c9389a2f4e3f6203bcb/3ee5b016-9242-4545-a712-55177cd480e3.png"><img style="width:240px" src="Using%20Python%20Libraries%20with%20Ollama%2018524746703a4c9389a2f4e3f6203bcb/3ee5b016-9242-4545-a712-55177cd480e3.png"/></a><figcaption>Laptop</figcaption></figure></div><div id="1f021970-2ef2-4619-986d-7eb6413e53c4" style="width:53.333333333333336%" class="column"><figure id="51db0ee9-e83b-4030-9bbb-7e2c6da05a6f" class="image" style="text-align:center"><a href="Using%20Python%20Libraries%20with%20Ollama%2018524746703a4c9389a2f4e3f6203bcb/vcet.jpg"><img style="width:384px" src="Using%20Python%20Libraries%20with%20Ollama%2018524746703a4c9389a2f4e3f6203bcb/vcet.jpg"/></a><figcaption>VCET</figcaption></figure></div></div><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Generate for images using ollama library</summary><div class="indented"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="922b4f95-f0ad-4498-8464-fab6c108d921" class="code"><code class="language-Shell">from ollama import generate
+
+model = &quot;moondream&quot;
+prompt = &quot;Please describe what&#x27;s in this image.&quot;
+file_path = [&quot;Untitled.png&quot;]
+
+response = generate(model=model, prompt=prompt, images = file_path, stream=False)
+print(response[&#x27;response&#x27;])</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Chat for images using ollama library</summary><div class="indented"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="edbe7208-db34-4dcb-8ba3-30eb882f43d1" class="code"><code class="language-Shell">from ollama import chat
+
+response = chat(
+    model = &quot;moondream&quot;, 
+    messages = [
+        {
+            &quot;role&quot;:&quot;user&quot;,
+            &quot;content&quot;: &quot;Describe the image&quot;,
+            &quot;images&quot;: [&quot;./Untitled.jpg&quot;]
+        }
+    ]
+)
+
+print(response[&#x27;message&#x27;][&#x27;content&#x27;])</code></pre><p id="96d29282-d6e8-4d34-a593-2bb51889c806" class="">
+</p></div></details><p id="decfcfab-3c00-40cf-a3a7-892544646737" class="">
+</p></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0"><mark class="highlight-red">Some other uses of ollama library</mark></summary><div class="indented"><ol type="1" id="4259dd4f-d250-47ac-986d-97711b1b6889" class="numbered-list" start="1"><li>Create a model <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3f1bf7ad-2e90-4d8f-82e1-275f2afbc929" class="code"><code class="language-Python">import ollama
+
+modelfile = &quot;&quot;&quot;
+from qwen2:0.5b
+
+parameter temperature 0.99
+&quot;&quot;&quot;
+
+reponse = ollama.create(model=&quot;temp2&quot;,modelfile=modelfile)
+print(reponse[&#x27;status&#x27;])
+</code></pre></li></ol><ol type="1" id="ac04da07-09f4-4576-b5c6-641538aa9c06" class="numbered-list" start="2"><li>Install a model <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="ec91e41b-2332-4d2b-9bf6-d998c464f769" class="code"><code class="language-Python">import ollama
+reponse = ollama.pull(&quot;mistral&quot;)
+print(reponse[&#x27;status&#x27;])</code></pre></li></ol><ol type="1" id="38cc04cf-d430-4e92-881e-d76cc0701180" class="numbered-list" start="3"><li>See the model details <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="43427d4d-9c92-4680-a065-4d0a9c386a17" class="code"><code class="language-Python">import ollama 
+print(ollama.show(&quot;mistral&quot;</code></pre></li></ol><ol type="1" id="edc21151-6cb3-42e1-8fd3-ddd44b3612e6" class="numbered-list" start="4"><li>Deleting a model<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="ab96925c-57db-4a31-bf51-b13dd476e32e" class="code"><code class="language-Python">import ollama
+reponse = ollama.delete(&quot;temp1&quot;)
+print(reponse[&#x27;status&#x27;])</code></pre></li></ol><ol type="1" id="0930a4f3-fed5-40ce-81cf-1d419e8fddb8" class="numbered-list" start="5"><li>Listing the models <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="ebd6b110-6dba-4fcd-a86f-6bfa268b7c72" class="code"><code class="language-Python">import ollama
+models = [model[&#x27;name&#x27;] for model in ollama.list()[&#x27;models&#x27;]]
+for model in models
+    print(model)</code></pre></li></ol></div></details></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
