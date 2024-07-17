@@ -1,0 +1,1597 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>                          Ollama</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="877eaf39-7480-4294-87a4-3809d9598165" class="page sans"><header><img class="page-cover-image" src="Ollama%20877eaf397480429487a43809d9598165/vcet_(1).png" style="object-position:center 48.95%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="Ollama%20877eaf397480429487a43809d9598165/ollama.jpg"/></div><h1 class="page-title">                          Ollama</h1><p class="page-description"></p></header><div class="page-body"><p id="1180c557-9f49-47bc-b9a7-37ccd711750e" class="">Ollama is a powerful tool that allows you to run large language models (LLMs) directly on your computer. This means you can interact with these complex AI models without relying on cloud services or internet access. <strong>Think like Docker for LLMs.</strong></p><figure id="37915205-65f0-420a-91e7-fc93ec002937" class="image"><a href="Ollama%20877eaf397480429487a43809d9598165/aaa.png"><img style="width:512px" src="Ollama%20877eaf397480429487a43809d9598165/aaa.png"/></a></figure><h3 id="4ccd0459-3920-4e6e-8189-6b37572950e2" class="">Use-cases of model creators</h3><ul id="6dff0857-0276-4683-8dab-3e49b79ddcb5" class="bulleted-list"><li style="list-style-type:disc">Content Creation and Communication<ul id="0c234c3d-12ac-45b0-82ec-880848f50383" class="bulleted-list"><li style="list-style-type:circle">Text Generation: These models can be used to generate creative text formats such as poems, scripts, code, marketing copy, and email drafts.</li></ul><ul id="5e12dd2a-d324-44eb-acac-a7c23fe5ee5b" class="bulleted-list"><li style="list-style-type:circle">Chatbots and Conversational AI: Power conversational interfaces for customer service, virtual assistants, or interactive applications.</li></ul><ul id="95323160-20a6-4470-8f41-4d91aabc8be5" class="bulleted-list"><li style="list-style-type:circle">Text Summarization: Generate concise summaries of a text corpus, research papers, or reports.</li></ul><ul id="a631274d-5736-4833-91b0-4f34f858bea9" class="bulleted-list"><li style="list-style-type:circle">Automation: Efficient and streamlined bulk email sending system that enables users to send large volumes of emails effortlessly, ensuring timely and consistent communication with a vast audience.</li></ul></li></ul><ul id="0501d8a6-5a46-4f39-a344-63abde76e084" class="bulleted-list"><li style="list-style-type:disc">Research and Education<ul id="598c0346-7d8d-4920-a205-03a9c9eb2a2c" class="bulleted-list"><li style="list-style-type:circle">Natural Language Processing (NLP) Research: These models can serve as a foundation for researchers to experiment with NLP techniques, develop algorithms, and contribute to the advancement of the field.</li></ul><ul id="bc2d5659-2468-4f44-ba75-3a644115247a" class="bulleted-list"><li style="list-style-type:circle">Language Learning Tools: Support interactive language learning experiences, aiding in grammar correction or providing writing practice.</li></ul><ul id="5429f1f3-6ce9-4a71-9c20-6d9681ebce37" class="bulleted-list"><li style="list-style-type:circle">Knowledge Exploration: Assist researchers in exploring large bodies of text by generating summaries or answering questions about specific topics.</li></ul></li></ul><hr id="275e4a08-6c9a-4136-b9fa-0612d13a6625"/><h2 id="7be74fa7-0264-4e20-ad15-3920041726c6" class=""><mark class="highlight-red"><strong><span style="border-bottom:0.05em solid">Table of Content</span></strong></mark></h2><details open=""><summary style="font-weight:600;font-size:1.875em;line-height:1.3;margin:0">Installation</summary><div class="indented"><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Ollama Installation</summary><div class="indented"><h3 id="696a03e3-4052-46d2-86b3-5b89e5273e60" class=""><strong>Follow the below Instruction</strong></h3><hr id="794b33c7-6815-48c8-85cf-4940976eb5f5"/><ul id="04cbc11a-2aee-4c9d-a271-2b89dee8686a" class="toggle"><li><details open=""><summary><strong>Choose the Platform to Download Ollama</strong></summary><ul id="f35a71c6-eac0-4ee0-8efe-f1395dcc8fd1" class="toggle"><li><details open=""><summary>Windows</summary><h3 id="80ec019c-2169-4cee-b15a-31d6928c7f88" class=""><mark class="highlight-red"><strong><a href="https://ollama.com/download/OllamaSetup.exe">Click Here to Download</a></strong></mark></h3><h2 id="73258469-1120-4422-b572-6860c845d02d" class="">                                                   <mark class="highlight-blue">OR </mark></h2><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="60d4cd14-2730-4665-b5aa-01ef2ad45f5d" class="code"><code class="language-PowerShell">https://ollama.com/download/OllamaSetup.exe</code></pre><p id="a918a00d-91be-4c63-b687-41adc7a774ba" class="">
+</p><p id="c2c02634-1c61-427b-9f54-e32d9c581935" class="">Then Run the Setup File (ollama.exe). - By Double clicking it.</p><hr id="744a7fe5-7769-44c4-a632-00029f87d82e"/></details></li></ul><ul id="83f6d586-b7d0-408d-9a46-fc2a17e48102" class="toggle"><li><details open=""><summary>Linux</summary><h3 id="6fa2df20-d60b-4c1d-b9d8-cd3a02902fd6" class=""><mark class="highlight-purple">Run one by one below commands</mark></h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="4ea8ebe1-1151-416d-9b7c-8d6950917d61" class="code"><code class="language-Shell">sudo apt install curl</code></pre><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="f1a9a284-11b0-4d46-abc2-50c67694a911" class="code"><code class="language-Shell">curl -fsSL https://ollama.com/install.sh | sh</code></pre><figure class="block-color-teal_background callout" style="white-space:pre-wrap;display:flex" id="a8caa267-8fc5-4fd5-9d2f-5388e88527df"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">While running command it will prompt for password, Please provide the password. </div></figure></details></li></ul><ul id="ea775dd5-67c2-44dd-aa69-06b1736871e6" class="toggle"><li><details open=""><summary>Mac OS</summary><h3 id="977d3a43-7078-4713-bc3d-1621953abb71" class=""><mark class="highlight-pink"><a href="https://ollama.com/download/Ollama-darwin.zip">Click Here to Download</a></mark></h3><h3 id="f781d415-fed7-46f8-bd29-9e05703df49f" class="">Then Extract the zip file.</h3><p id="b070d12f-ad31-4836-8d92-1467720a438b" class="">
+</p></details></li></ul></details></li></ul><figure class="block-color-yellow_background callout" style="white-space:pre-wrap;display:flex" id="3ec6d776-bc35-4916-8808-85b6eb456e3e"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><strong>OR </strong></div></figure><p id="676a9ed0-6f67-40ef-80f4-a2dd1c60e11c" class="">Download from official website :  <a href="https://ollama.com/download">https://ollama.com/download</a> <div class="indented"><figure id="a6bf8ff6-4eef-4a59-a9cb-d8117036c57e"><a href="https://ollama.com/download/linux" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Download Ollama on Linux</div></div><div class="bookmark-href"><img src="https://ollama.com/public/apple-touch-icon.png" class="icon bookmark-icon"/>https://ollama.com/download/linux</div></div><img src="https://ollama.com/public/og.png" class="bookmark-image"/></a></figure></div></p></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Python Installation for Windows</summary><div class="indented"><ul id="cef8a6f6-84d3-46a2-8a54-57cd9f3e1b1f" class="bulleted-list"><li style="list-style-type:disc">Detailed Installation can be seen in  </li></ul><h2 id="cc796df5-2026-46d2-aade-0f005ef4a427" class=""><mark class="highlight-red"><strong><a href="https://www.python.org/ftp/python/3.12.4/python-3.12.4-amd64.exe">Click Here to Download</a></strong></mark><mark class="highlight-red"><strong> Python</strong></mark></h2><h3 id="4575939c-b84f-4b0d-9e3c-c55f7d268de3" class="">                                                                             <mark class="highlight-pink">  OR </mark></h3><figure id="2b191f2f-3a07-455b-964f-4387fb38ddf3"><a href="https://www.python.org/downloads/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Download Python</div><div class="bookmark-description">The official home of the Python Programming Language</div></div><div class="bookmark-href"><img src="https://www.python.org/static/apple-touch-icon-144x144-precomposed.png" class="icon bookmark-icon"/>https://www.python.org/downloads/</div></div><img src="https://www.python.org/static/opengraph-icon-200x200.png" class="bookmark-image"/></a><figcaption>Go to this Website</figcaption></figure></div></details><p id="ec56211f-eb1c-4c1c-a4fa-a5a662a19437" class="">
+</p></div></details><details open=""><summary style="font-weight:600;font-size:1.875em;line-height:1.3;margin:0">Model Acquisition</summary><div class="indented"><p id="d097c160-518c-4ea0-bef6-a6ad05f2aa10" class="">Ollama supports various pre-trained LLMs. You can browse the model library or use your own custom models.</p><h2 id="34241527-60fd-47a9-aa45-4f22c388cacf" class=""><mark class="highlight-teal">Install required models for text processing</mark></h2><figure class="block-color-teal_background callout" style="white-space:pre-wrap;display:flex" id="358881bb-4a34-4bb0-aa98-59ad0023ddfb"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">ollama pull &lt;model family&gt;:&lt;tag&gt;</div></figure><ol type="1" id="fc80270c-9583-4327-ae1f-ff94b0869220" class="numbered-list" start="1"><li><strong>Qwen2 is a new series of large language models from Alibaba group.</strong><p id="97e1deec-a0f3-4b8d-b3e0-ff9de8dfbb71" class="">It is available in 4 parameter sizes: <strong>0.5B</strong>, <strong>1.5B</strong>, <strong>7B</strong>, <strong>72B</strong>.</p><ol type="1" id="5067cfa5-489b-4bf8-a252-79f55b301373" class="numbered-list" start="1"><li>Smallest fast model - 0.5 Billion Parameters<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="269a8841-f287-43b7-b2b2-36fd1e3d58f0" class="code"><code class="language-Shell">ollama pull qwen2:0.5b</code></pre></li></ol><ol type="1" id="a290bd35-8b7d-4cb0-915d-20ff05bfa95a" class="numbered-list" start="2"><li>Medium model - 1.5 Billion Parameters<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="0089469f-aadb-489f-a28f-05ab66110438" class="code"><code class="language-Shell">ollama pull qwen2:1.5b</code></pre></li></ol><ol type="1" id="62e5775d-8d9c-4bd1-8918-15bd12f4ee72" class="numbered-list" start="3"><li>Large model - 7 Billion Parameters<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="8cd6912c-6ad3-48ac-a9b6-854a98da15c1" class="code"><code class="language-Shell">ollama pull qwen2:7b</code></pre></li></ol></li></ol><ol type="1" id="f1e41813-63ad-4d48-9b5c-354796138f9d" class="numbered-list" start="2"><li><strong>Gemma is a family of lightweight, state-of-the-art open models built by Google DeepMind.</strong><p id="ac44ac17-7608-4335-a0a4-772a66725744" class="">Gemma is available in both <code>2b</code> and <code>7b</code> parameter sizes.</p><ol type="1" id="a2d42e58-9626-41fb-af01-a8c508ed7ccf" class="numbered-list" start="1"><li>Small Model - 2 Billion Paraments<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="83e20c48-d45d-4651-892b-76311fd2444f" class="code"><code class="language-Shell">ollama pull gemma:2b</code></pre></li></ol><ol type="1" id="be786278-5735-487e-8df8-a13d4f2950ce" class="numbered-list" start="2"><li>Large Model - 7 Billion Paraments<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="7c551fb2-ecf9-4ef2-b687-a36030259bb0" class="code"><code class="language-Shell">ollama pull gemma</code></pre></li></ol><ol type="1" id="f0454fac-d068-4d7b-9d10-e53c0e82de23" class="numbered-list" start="3"><li><strong>Google Gemma 2 - 9 Billion Parameters</strong><p id="627ac81d-7b3c-4ab1-9710-793a42bb5794" class="">Featuring a brand new architecture designed for class leading performance and efficiency.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="5f043c1d-be27-432b-8c97-82cf2b69c872" class="code"><code class="language-Shell">ollama pull gemma2</code></pre></li></ol></li></ol><ol type="1" id="59ea7416-a96e-411e-95cf-e8071590ad81" class="numbered-list" start="3"><li><strong>Meta Llama 3: The most capable openly available LLM to date.</strong><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="e13601b6-8475-4114-a37f-aac65fdcb693" class="code"><code class="language-Shell">ollama pull llama3</code></pre></li></ol><ol type="1" id="c9913aad-0d24-463d-997b-63fb3035a647" class="numbered-list" start="4"><li><strong>Meta Llama 2 - 7 Billion Parameters</strong><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="0903bc6f-9c72-4bc7-97e6-15265697f451" class="code"><code class="language-Shell">ollama pull llama2</code></pre></li></ol><ol type="1" id="d7a7891a-26d9-49cf-8a99-56525e96a491" class="numbered-list" start="5"><li><strong>Phi-3 is a family of lightweight 3B (Mini) state-of-the-art open models by Microsoft.</strong><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="afeec0f3-3441-41c8-994c-2b2c3fe7a1a0" class="code"><code class="language-Shell">ollama pull phi3</code></pre></li></ol><ol type="1" id="3a4bab65-b296-4c8a-8ece-0d66a9d36b1f" class="numbered-list" start="6"><li><strong>Moondream 2 is a small vision language model designed to run efficiently on edge devices.</strong><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="c89bdd81-fd03-49fd-984d-f8f5846e0931" class="code"><code class="language-Shell">ollama pull moondream</code></pre></li></ol><ol type="1" id="84a6c4cb-d346-45aa-ab17-eb47e2ba4a03" class="numbered-list" start="7"><li><strong>LLaVA is a multimodal model that combines visual and language understanding for general-purpose, achieving impressive chat capabilities mimicking spirits of the multimodal GPT-4.</strong><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="2504a6a3-93c9-4724-8140-af8da80b9e85" class="code"><code class="language-Shell">ollama run llava</code></pre></li></ol><p id="e47ee99e-96fa-4617-bf3a-cfb8eba4ca59" class="">
+</p><figure class="block-color-teal_background callout" style="white-space:pre-wrap;display:flex" id="9affa9fd-9c3c-4f88-b153-ee1748059d37"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">Explore More in this for Text &amp; Image generation &amp; processing</div></figure><figure id="6b2661a4-ac2a-4028-9946-bd4afa370854"><a href="https://ollama.com/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Ollama</div><div class="bookmark-description">Get up and running with large language models.</div></div><div class="bookmark-href"><img src="https://ollama.com/public/apple-touch-icon.png" class="icon bookmark-icon"/>https://ollama.com/</div></div><img src="https://ollama.com/public/og.png" class="bookmark-image"/></a></figure><p id="622fd77b-2562-4b1c-bc6a-310f82ff9298" class="">
+</p><p id="3bdf7b93-0a11-400f-8e99-e2dc3fef7f4e" class="">
+</p><figure class="block-color-teal_background callout" style="white-space:pre-wrap;display:flex" id="57f790e1-8796-405a-8419-78212ada1c0c"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">You will see as sample output in terminal when the command is executed<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="cd88dff2-3092-4b0c-a7af-0477edf519d0" class="code"><code class="language-Shell" style="white-space:pre-wrap;word-break:break-all">pulling manifest
+pulling 8934d96d3f08... 100% ▕██████████████████▏ 3.8 GB
+pulling 8c17c2ebb0ea... 100% ▕██████████████████▏ 7.0 KB
+pulling 7c23fb36d801... 100% ▕██████████████████▏ 4.8 KB
+pulling 2e0493f67d0c..  100% ▕██████████████████▏ 2.8 KB
+verifying sha256 digest
+writing manifest
+removing any unused layers
+success</code></pre></div></figure><h2 id="bf0e21e2-9fe1-4e4e-a88d-5af4129580f9" class="">Browse Model Library</h2><figure id="3d360778-fb5d-439a-a154-f1ad27cb4357"><a href="https://ollama.com/library" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">library</div><div class="bookmark-description">Get up and running with large language models.</div></div><div class="bookmark-href"><img src="https://ollama.com/public/apple-touch-icon.png" class="icon bookmark-icon"/>https://ollama.com/library</div></div><img src="https://ollama.com/public/og.png" class="bookmark-image"/></a><figcaption>Go this Page</figcaption></figure><p id="25cd3323-4a24-4e0f-a89d-e69b0c773679" class="">
+</p><p id="515b14fb-667a-4d90-8c98-a9e7d49bf61a" class=""><strong>Here are some example models that can be downloaded:</strong></p><table id="4d718fe1-fc0a-4e9d-9718-966af3b31d9f" class="simple-table"><tbody><tr id="e8f63b48-bd62-4201-979e-b417fe44befc"><td id="dFlc" class="">Model</td><td id="OOum" class="">Parameters</td><td id="uA}r" class="">Size</td><td id="j]:U" class="">Download</td></tr><tr id="baf04524-ff00-49d9-a000-6bd7c3382bfb"><td id="dFlc" class="">Llama 3</td><td id="OOum" class="">8B</td><td id="uA}r" class="">4.7GB</td><td id="j]:U" class=""><code>ollama run llama3</code></td></tr><tr id="43bf03a9-9ab4-433b-90cf-9b8cd71df6e6"><td id="dFlc" class="">Llama 3</td><td id="OOum" class="">70B</td><td id="uA}r" class="">40GB</td><td id="j]:U" class=""><code>ollama run llama3:70b</code></td></tr><tr id="0a5eb180-a900-4fd9-8053-000bfeb50144"><td id="dFlc" class="">Phi 3 Mini</td><td id="OOum" class="">3.8B</td><td id="uA}r" class="">2.3GB</td><td id="j]:U" class=""><code>ollama run phi3</code></td></tr><tr id="07556143-e51a-42e9-9577-68485029f4b2"><td id="dFlc" class="">Phi 3 Medium</td><td id="OOum" class="">14B</td><td id="uA}r" class="">7.9GB</td><td id="j]:U" class=""><code>ollama run phi3:medium</code></td></tr><tr id="3906da66-ac6e-4cc0-a606-ac35eb07309f"><td id="dFlc" class="">Gemma 2</td><td id="OOum" class="">9B</td><td id="uA}r" class="">5.5GB</td><td id="j]:U" class=""><code>ollama run gemma2</code></td></tr><tr id="0d90f7e9-f6ef-403a-8524-e90ab5cd38fe"><td id="dFlc" class="">Gemma 2</td><td id="OOum" class="">27B</td><td id="uA}r" class="">16GB</td><td id="j]:U" class=""><code>ollama run gemma2:27b</code></td></tr><tr id="271bb510-e3b8-45b8-b970-5dcb005a535b"><td id="dFlc" class="">Mistral</td><td id="OOum" class="">7B</td><td id="uA}r" class="">4.1GB</td><td id="j]:U" class=""><code>ollama run mistral</code></td></tr><tr id="353b2ab2-8a9b-4087-8982-fff7fad946e9"><td id="dFlc" class="">Moondream 2</td><td id="OOum" class="">1.4B</td><td id="uA}r" class="">829MB</td><td id="j]:U" class=""><code>ollama run moondream</code></td></tr><tr id="18e5c48f-a305-49d8-ad54-0c8ab4e91732"><td id="dFlc" class="">Neural Chat</td><td id="OOum" class="">7B</td><td id="uA}r" class="">4.1GB</td><td id="j]:U" class=""><code>ollama run neural-chat</code></td></tr><tr id="52316c2c-23a5-49b7-86c6-c84283e8019d"><td id="dFlc" class="">Starling</td><td id="OOum" class="">7B</td><td id="uA}r" class="">4.1GB</td><td id="j]:U" class=""><code>ollama run starling-lm</code></td></tr><tr id="aaf815ee-86f5-4a75-8002-d5723a269fab"><td id="dFlc" class="">Code Llama</td><td id="OOum" class="">7B</td><td id="uA}r" class="">3.8GB</td><td id="j]:U" class=""><code>ollama run codellama</code></td></tr><tr id="9b7ae451-e70b-4e69-8094-6903c0090d79"><td id="dFlc" class="">Llama 2 Uncensored</td><td id="OOum" class="">7B</td><td id="uA}r" class="">3.8GB</td><td id="j]:U" class=""><code>ollama run llama2-uncensored</code></td></tr><tr id="ba76a73a-2e18-4c81-bdce-0df3ec6d7ff6"><td id="dFlc" class="">LLaVA</td><td id="OOum" class="">7B</td><td id="uA}r" class="">4.5GB</td><td id="j]:U" class=""><code>ollama run llava</code></td></tr><tr id="45622ee7-8c00-4cd0-a236-361604563816"><td id="dFlc" class="">Solar</td><td id="OOum" class="">10.7B</td><td id="uA}r" class="">6.1GB</td><td id="j]:U" class=""><code>ollama run solar</code></td></tr></tbody></table><p id="55da9068-d5f6-4ea8-8184-71cc04b71a9d" class="">
+</p></div></details><details open=""><summary style="font-weight:600;font-size:1.875em;line-height:1.3;margin:0">Running the Model</summary><div class="indented"><ol type="1" id="c7cd60e9-54e9-4b8d-9ed3-cb4d99beded6" class="numbered-list" start="1"><li><mark class="highlight-blue">Use the </mark><mark class="highlight-blue"><code>ollama run</code></mark><mark class="highlight-blue"> command in your terminal, specifying the model name. </mark><p id="49e222fb-5b58-4b9e-9a2e-13414b61389b" class=""><mark class="highlight-blue">This provides a command-line interface (REPL) for interacting with the LLM.</mark></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="0ec3973c-fdbb-4002-a8dc-b8f36e1e2153" class="code"><code class="language-Shell">ollama run &lt;model_name&gt;</code></pre><p id="4b8504bf-5dce-45a0-9686-4a09f4380bdb" class=""><mark class="highlight-red"><strong>Eg : Qwen2 Smallest fast model - 0.5 Billion Parameters</strong></mark></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="34d9689c-ac80-478d-9199-ece08c05e13f" class="code"><code class="language-Shell">ollama run qwen2:0.5b</code></pre><p id="5825b04e-4700-4bcb-931a-f5b78b17ae0e" class="">You will get the REPL - <strong>read-eval-print-loop (below Interface)</strong></p><figure id="08b85fbc-c989-4976-a2c8-39fa16304e8a" class="image"><a href="Ollama%20877eaf397480429487a43809d9598165/Untitled.png"><img style="width:720px" src="Ollama%20877eaf397480429487a43809d9598165/Untitled.png"/></a></figure><h3 id="df6cfa09-3783-43dd-b314-639f17d46dbb" class=""><mark class="highlight-orange">Then you can ask the questions required</mark></h3><figure id="26257260-fc50-4de2-a0ab-f58a70cb1f8b" class="image"><a href="Ollama%20877eaf397480429487a43809d9598165/Untitled%201.png"><img style="width:731px" src="Ollama%20877eaf397480429487a43809d9598165/Untitled%201.png"/></a></figure><h2 id="47c9decc-bf2f-4f76-83af-d57497375dae" class=""><mark class="highlight-red">Important Points</mark></h2><ul id="248696c7-c4aa-4a31-af7e-83e87dd56e73" class="bulleted-list"><li style="list-style-type:disc"><strong>Multiline input</strong><p id="7458239c-924d-49a3-8528-dc8984ef62dd" class="">For multiline input, you can wrap text with <code>&quot;&quot;&quot;</code>:</p><p id="1aaffc4c-c2a5-40ff-acd7-61e8e36c4948" class=""><mark class="highlight-default"><code>&gt;&gt;&gt; &quot;&quot;&quot;Hello,<br/>... world!<br/>... &quot;&quot;&quot;<br/></code></mark></p></li></ul><p id="b89d4ef3-9d87-48c4-bcb7-f13a296fcdcb" class="">
+</p><ul id="261b1e52-276c-4e37-94ae-a0662e52746f" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-blue_background"><strong>If you want to exit the Command line Interface </strong></mark></li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="67b1d1c7-b605-4ce8-bba5-18f52f05dd0c" class="code"><code class="language-Shell">/bye</code></pre><ul id="5b6efaa0-6625-49fc-837a-0a25a1090e80" class="bulleted-list"><li style="list-style-type:disc">You can Also Press <code>Ctrl + d</code> to exit.</li></ul><ul id="130b36bb-cb23-4518-83c9-cd74845b61f1" class="bulleted-list"><li style="list-style-type:disc">To get the list of Commands accepted use <code>/?</code> <figure id="9d0c4569-46cf-452b-a3e0-57105ff429a8" class="image"><a href="Ollama%20877eaf397480429487a43809d9598165/Untitled%202.png"><img style="width:480px" src="Ollama%20877eaf397480429487a43809d9598165/Untitled%202.png"/></a></figure></li></ul><p id="892b3a19-efa5-4a70-b0d3-9832121054ae" class="">
+</p></li></ol><p id="c8441796-49f9-4416-a554-59db640cc5ec" class="">
+</p><ol type="1" id="fe57538d-2ec6-47da-8a55-56a0945fa59a" class="numbered-list" start="2"><li><mark class="highlight-blue">Use the </mark><mark class="highlight-blue"><code>ollama run model_name &quot;prompt&quot;</code></mark><mark class="highlight-blue">command in your terminal, specifying the model name.</mark><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="4ba3dbe9-56ea-4ebe-925b-bacedc951743" class="code"><code class="language-Shell">ollama run qwen2:0.5b &quot;Write Python code to calculate the area of a rectangle with width 5 and height 3&quot;</code></pre><figure id="8c928a43-003e-4342-868d-f2a4e78f4f4a" class="image"><a href="Ollama%20877eaf397480429487a43809d9598165/Untitled%203.png"><img style="width:720px" src="Ollama%20877eaf397480429487a43809d9598165/Untitled%203.png"/></a><figcaption>To zoom in Double Click on Image</figcaption></figure><figure id="83b3a2b4-e0f5-4d0c-b159-6380bb4bd5d2" class="image"><a href="Ollama%20877eaf397480429487a43809d9598165/Untitled%204.png"><img style="width:1174px" src="Ollama%20877eaf397480429487a43809d9598165/Untitled%204.png"/></a></figure></li></ol><p id="bfc674ea-9634-4e0f-b476-271ce5b59046" class="">
+</p><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Using Vision Model </summary><div class="indented"><p id="678284ae-96b1-4a5d-8c08-608603f20cb6" class="">Lets take a small simple model </p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="121c57fa-6970-426c-9b81-9484f6159b4c" class="code"><code class="language-Shell">ollama run moondream</code></pre><p id="adb77383-baf4-4b91-a0e7-2a84183306fb" class="">Commands Available </p><figure id="bf65ae59-995c-4b73-ada0-c748b521f981" class="image"><a href="Ollama%20877eaf397480429487a43809d9598165/Untitled%205.png"><img style="width:491px" src="Ollama%20877eaf397480429487a43809d9598165/Untitled%205.png"/></a></figure><h3 id="3dec5f7e-5c6f-463f-9ce8-5cb5b1d0a77d" class=""><strong>You can provide Images in only </strong><code><strong>.png</strong></code><strong> or </strong><code><strong>.jpg</strong></code><strong> format only.</strong></h3><p id="5595384a-3c77-49be-8017-1e9b5a4ef0e2" class=""><mark class="highlight-red">Eg</mark>: </p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="28c1f404-73e2-4e40-8d92-b19c106478fa" class="code"><code class="language-Shell">What is this image? &quot;C:\Users\shreesha\Downloads\vcet.png&quot;</code></pre><p id="afc3a0e5-ef63-45d9-b3b9-585d94aca8d6" class=""><a href="https://i.ibb.co/y46NGQL/vcet.png">Download the image here : </a></p><figure id="e1f5a0b4-08e4-4a16-b4d6-bf269bc8c8a0" class="image"><a href="Ollama%20877eaf397480429487a43809d9598165/vcet.png"><img style="width:849px" src="Ollama%20877eaf397480429487a43809d9598165/vcet.png"/></a></figure><figure id="069e02ed-1154-45af-9cb5-4bd2c920cbad" class="image"><a href="Ollama%20877eaf397480429487a43809d9598165/Untitled%206.png"><img style="width:720px" src="Ollama%20877eaf397480429487a43809d9598165/Untitled%206.png"/></a></figure></div></details><details open=""><summary style="font-weight:600;font-size:1.875em;line-height:1.3;margin:0">Bonus for the Students Completed Fast </summary><div class="indented"><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Read the entire prompt from any file (txt , md , py, …..)</summary><div class="indented"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="6fe757b5-f8d5-44d5-9b89-91893d91fb1a" class="code"><code class="language-Shell">ollama run qwen2:0.5b &quot;summarize this text&quot; &lt; notes.md</code></pre><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="59b014be-7b7c-46aa-8162-c9b142e865d6" class="code"><code class="language-Shell">ollama run qwen2:0.5b &quot;explain this code&quot; &lt; main.py</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Write the entire answer to any file (txt , md , py, …..)</summary><div class="indented"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="f5cf7bef-3571-4b0a-b525-dbd2be640b9c" class="code"><code class="language-Shell">ollama run qwen2:0.5b &quot;Write a summary on Students&quot; &gt; notes.md</code></pre><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="a01438f9-b7eb-40cc-8776-7b3609e8d08e" class="code"><code class="language-Shell">ollama run qwen2:0.5b &quot;Write a python code for printing hello world&quot; &gt; main.py</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Read &amp; Write from &amp; to any file (txt , md , py, …..)</summary><div class="indented"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="afc2ddaa-f927-4123-b297-158d340ba143" class="code"><code class="language-Shell">ollama run qwen2:0.5b &quot;Create a notes for this code&quot; &lt; main.py &gt; summary.md</code></pre></div></details></div></details></div></details><details open=""><summary style="font-weight:600;font-size:1.875em;line-height:1.3;margin:0">Customization</summary><div class="indented"><p id="2d3bea82-b537-4e6d-af99-7f6910bfd013" class="">You can customize LLMs by setting system prompts for a specific desired behavior like so:</p><ul id="131d5688-22a3-4bd7-be52-1082d227d403" class="bulleted-list"><li style="list-style-type:disc">Set system prompt for desired behavior.</li></ul><ul id="32ad6e67-1c00-49ed-8ee2-75d0468e94f6" class="bulleted-list"><li style="list-style-type:disc">Save the model by giving it a name.</li></ul><ul id="7ebe6f77-b0f5-4848-b8a1-04e401ea6bdb" class="bulleted-list"><li style="list-style-type:disc">Exit the REPL and run the model you just created.</li></ul><p id="511f2ff0-5c75-4337-b755-3a1fb2089c35" class="">
+</p><h2 id="fb50d7b5-6f87-4689-a65e-2c64a60ea929" class=""><strong>Change Model Behavior</strong></h2><p id="0be10667-7828-41c7-a65f-8fdf45f44326" class="">Available Methods</p><figure id="adf4334d-1ed2-434c-bf96-6e320dd8f36d" class="image"><a href="Ollama%20877eaf397480429487a43809d9598165/Untitled%207.png"><img style="width:576px" src="Ollama%20877eaf397480429487a43809d9598165/Untitled%207.png"/></a></figure><p id="b995352e-1d6d-4414-b7b2-0ae1606213de" class="">
+</p><figure class="block-color-teal_background callout" style="white-space:pre-wrap;display:flex" id="667536eb-433a-44cf-a7d8-b93707211b7f"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><mark class="highlight-red"><strong>These changes are only for the current session.</strong></mark></div></figure><p id="a5a449a5-9bbe-4c1c-a7e3-bfbb5e429a9b" class="">
+</p><ul id="c2dcbd33-3a85-43cb-af79-d9dfef1a3875" class="bulleted-list"><li style="list-style-type:disc">For the prompt : <code>What is Python?</code>  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="a9743f18-9db6-4e7a-b762-35915db232c1" class="code"><code class="language-Shell">What is Python?</code></pre></li></ul><ul id="6182a0df-9a73-429f-baeb-4fc556661955" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-brown">When Not Specified the System Behavior </mark></li></ul><figure id="c3db2b0b-48e3-428d-8bda-67c58b254803" class="image"><a href="Ollama%20877eaf397480429487a43809d9598165/Untitled%208.png"><img style="width:1212px" src="Ollama%20877eaf397480429487a43809d9598165/Untitled%208.png"/></a></figure><p id="9bc18c0c-4efa-4057-a4da-abb51cc4f9eb" class="">
+</p><ul id="b8b1914a-af37-4422-b02e-f368ddf95290" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-purple"><strong>When Specified the System Behavior </strong></mark></li></ul><figure id="e193bf41-9d3b-4b6f-bc42-6eeb5fbc2851" class="image"><a href="Ollama%20877eaf397480429487a43809d9598165/Untitled%209.png"><img style="width:1264px" src="Ollama%20877eaf397480429487a43809d9598165/Untitled%209.png"/></a></figure><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0"><strong>Change Model Behavior with System Prompts</strong></summary><div class="indented"><ul id="ad872cf4-3179-410f-bf52-e2dba71cf21e" class="bulleted-list"><li style="list-style-type:disc">To see the system prompt you can use <code>/show system</code> .</li></ul><ul id="fd8b3f63-35cb-4578-b9cb-cdb977e215e8" class="bulleted-list"><li style="list-style-type:disc">To change the system prompt for current session you can use <code>/set system</code> &lt;string&gt;.</li></ul><p id="1d78c2e9-5182-4c52-a8dc-7d809d2587b9" class="">Eg: </p><p id="aeb9fee9-7c82-4790-bdba-89e0b9c736ac" class="">System Prompt :  You are a Python Tutor. Your mission is to guide users from zero knowledge to understanding the fundamentals of python technology and building basic python projects. Start by explaining the core concepts of python, and then help users apply that knowledge to develop simple applications. Be patient, clear, and thorough in your explanations, and adapt to the user&#x27;s knowledge and pace of learning.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="8a917546-38d5-4d6e-9b6b-703cf7d6c0a3" class="code"><code class="language-Shell">/set system You are a Python Tutor. Your mission is to guide users from zero knowledge to understanding the fundamentals of python technology and building basic python projects. Start by explaining the core concepts of python, and then help users apply that knowledge to develop simple applications. Be patient, clear, and thorough in your explanations, and adapt to the user&#x27;s knowledge and pace of learning.</code></pre><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="63cfdb55-adc7-4345-9c6e-590d4199b0dc" class="code"><code class="language-Shell">/show system</code></pre><p id="3ac2d3fd-8a32-4107-8939-9d5c1a49b9d9" class="">
+</p><figure id="0414af9e-994f-4083-b6da-af20655ab99e" class="image"><a href="Ollama%20877eaf397480429487a43809d9598165/Untitled%2010.png"><img style="width:1264px" src="Ollama%20877eaf397480429487a43809d9598165/Untitled%2010.png"/></a><figcaption>Double tap the image to expand</figcaption></figure><p id="f7245d53-a55a-4bc6-aa7f-b312a0722b3c" class="">
+</p><p id="1844c2ed-2b3e-4bdc-8637-f92466bc640a" class=""><em><strong><span style="border-bottom:0.05em solid">Reference</span></strong></em></p><ul id="9a7cf999-b4b5-4bbb-bd0f-c683aa638ee6" class="bulleted-list"><li style="list-style-type:disc">Refer how to system prompt code llama : <a href="https://ollama.com/blog/how-to-prompt-code-llama">https://ollama.com/blog/how-to-prompt-code-llama</a></li></ul><ul id="3071c199-d11a-47ad-aa89-6be690e4f6c5" class="bulleted-list"><li style="list-style-type:disc">Get More System Prompts :  <a href="https://www.greataiprompts.com/prompts/best-system-prompts-for-chatgpt/">https://www.greataiprompts.com/prompts/best-system-prompts-for-chatgpt/</a></li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0"><strong>Change Model Behavior with System Parameters</strong></summary><div class="indented"><figure id="36bac44c-b546-4d36-8827-70b923ba5b77" class="image"><a href="Ollama%20877eaf397480429487a43809d9598165/Untitled%2011.png"><img style="width:659px" src="Ollama%20877eaf397480429487a43809d9598165/Untitled%2011.png"/></a></figure><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Change Model Behavior with <code>num_ctx</code>  , <code>temperature</code> , …….</summary><div class="indented"><ul id="640d1cc4-0379-44f8-a2cd-99f12745e4b0" class="bulleted-list"><li style="list-style-type:disc"><code>num_ctx</code>  : - Set the context size → Sets the size of the context window used to generate the next token. <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="4f10df47-f654-4a40-8be7-f5010a323f93" class="code"><code class="language-Shell">/set parameter num_ctx 100</code></pre></li></ul><figure id="8213ea14-fb8e-4d5a-a7bc-cf88c92ebe38" class="image"><a href="Ollama%20877eaf397480429487a43809d9598165/Untitled%2012.png"><img style="width:1217px" src="Ollama%20877eaf397480429487a43809d9598165/Untitled%2012.png"/></a></figure><ul id="c0041f78-fc30-4407-a6ca-e1a223d62897" class="bulleted-list"><li style="list-style-type:disc"><code>temperature</code> : - Set creativity level <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="18c9fdfe-f846-4053-a0bf-458b643ca56b" class="code"><code class="language-Shell">/set parameter temperature 0</code></pre><figure id="28e1b6fc-9c4b-4969-a7bc-36284f128519" class="image"><a href="Ollama%20877eaf397480429487a43809d9598165/Untitled%2013.png"><img style="width:327px" src="Ollama%20877eaf397480429487a43809d9598165/Untitled%2013.png"/></a></figure></li></ul><p id="d84c8b3d-24ff-48c1-89bb-f028f9573e0d" class=""><div class="indented"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="8929f003-0052-420a-87ef-d2e57164b617" class="code"><code class="language-Shell">/set parameter temperature 1</code></pre><figure id="7435df50-d94e-4119-b4d4-28cedafdb422" class="image"><a href="Ollama%20877eaf397480429487a43809d9598165/Untitled%2014.png"><img style="width:336px" src="Ollama%20877eaf397480429487a43809d9598165/Untitled%2014.png"/></a></figure><p id="ef34105a-ceb2-4a40-acc0-fc4d08cefdab" class="">
+</p><ul id="ba0f3318-4d17-4136-a608-a8347001fe08" class="bulleted-list"><li style="list-style-type:disc"><code>num_predict</code> : -  Maximum number of tokens to predict when generating text.</li></ul><ul id="7f36ce25-bc32-491e-b98f-ea01dda345c0" class="bulleted-list"><li style="list-style-type:disc"><code>top_k</code> : - Reduces the probability of generating nonsense. A higher value (e.g. 100) will give more diverse answers</li></ul><ul id="40aa1af6-ddf3-4f17-9173-3f08de5cf4f0" class="bulleted-list"><li style="list-style-type:disc"><code>top_p</code> : - Works together with top-k. A higher value (e.g., 0.95) will lead to more diverse text, while a lower value (e.g., 0.5) will generate more focused and conservative text.</li></ul></div></p></div></details></div></details><p id="431f22f9-ecef-4265-9436-026060294161" class="">
+</p><figure class="block-color-teal_background callout" style="white-space:pre-wrap;display:flex" id="1755bcef-983c-4595-a60d-7f2c15605fed"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><mark class="highlight-red"><strong>Like this, try for other parameters.</strong></mark></div></figure></div></details><details open=""><summary style="font-weight:600;font-size:1.875em;line-height:1.3;margin:0">Create Your Own Model</summary><div class="indented"><details open=""><summary style="font-weight:600;font-size:1.875em;line-height:1.3;margin:0">Basics </summary><div class="indented"><ol type="1" id="df773571-a586-4945-b99c-37658dcfd7b1" class="numbered-list" start="1"><li><strong>List models on your computer </strong><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3b0afcd9-6b0c-461e-8d85-09a32de13e84" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">ollama list</code></pre></li></ol><ol type="1" id="860159b1-6a69-4314-8981-c2dafa278977" class="numbered-list" start="2"><li><strong>Show model information (Eg)</strong><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="f68e9882-145a-40b9-9486-2c5cb48e3aa2" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">ollama show qwen2:0.5b</code></pre></li></ol><ol type="1" id="d3ec4545-a8d0-4345-b089-c7352806488d" class="numbered-list" start="3"><li><strong>Run a model (Eg)</strong><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="922be718-3ee2-423a-badc-64e703f1a118" class="code"><code class="language-Shell">ollama run qwen2:0.5b</code></pre></li></ol><ol type="1" id="00cb1f72-a821-45ec-a257-7dacb42ef958" class="numbered-list" start="4"><li><strong>Start Ollama : To start Ollama without running the desktop application</strong><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="f7aea4c1-b16e-4539-825d-b7a996721924" class="code"><code class="language-Shell">ollama serve</code></pre></li></ol><ol type="1" id="dd412a06-3a2d-4ee7-b997-95c7ee750a21" class="numbered-list" start="5"><li><strong>Create a model</strong><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="22786e74-a81e-41b4-9dfc-96a5416d50c3" class="code"><code class="language-Shell">ollama create my_model_name -f ./Modelfile</code></pre></li></ol><ol type="1" id="0313b762-0b6b-4b77-bf70-efa052dad932" class="numbered-list" start="6"><li><strong>Pull a model (Eg)</strong><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="817497b6-092d-4b8b-8305-a62b5da3a210" class="code"><code class="language-Shell">ollama pull qwen2:0.5b</code></pre></li></ol><ol type="1" id="b578ba61-5a69-4cb8-9143-9bd726495422" class="numbered-list" start="7"><li><strong>Remove a model</strong><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="eeb5f755-6101-42d1-9312-f01268492483" class="code"><code class="language-Shell">ollama rm model_name</code></pre></li></ol><ol type="1" id="a0465088-97c5-4648-9b9a-41106982b665" class="numbered-list" start="8"><li><strong>Copy a model (Eg)</strong><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="24de9ce0-ce55-43c4-bfdd-a96638567336" class="code"><code class="language-Shell">ollama cp qwen2:0.5b my_model_name</code></pre></li></ol></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">1st Method - Using available models - In the session</summary><div class="indented"><ol type="1" id="126550f0-6eec-4a25-b3da-b8b1a5ad85d0" class="numbered-list" start="1"><li>Change the System Prompt by using <code>/set system</code> instruction.<ol type="a" id="711a7e19-cbe9-41cf-930b-2d8550d8b31b" class="numbered-list" start="1"><li>if needed can also change other parameters like <code>temperature</code>, <code>num_ctx</code> ,…...</li></ol></li></ol><ol type="1" id="b8e129ba-2163-4a84-b059-34481b760a13" class="numbered-list" start="2"><li>use <code>/save</code> your_model_name </li></ol><ol type="1" id="b5086123-7d41-4c5c-9acf-ddf66e5ad2d6" class="numbered-list" start="3"><li>use <code>/bye</code> to exit.</li></ol><ol type="1" id="f95d6455-ce6e-4de3-9a5f-6c0fe97ba832" class="numbered-list" start="4"><li>ollama run your_model_name.</li></ol></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">2nd Method - Using available models - External file</summary><div class="indented"><ul id="8b769b3e-fa52-43c8-afff-24a098d8cbac" class="bulleted-list"><li style="list-style-type:disc">For getting the available model description can use : - <code>/show modelfile</code> .</li></ul><ul id="c862823a-a7af-4859-b4dc-07419c525284" class="bulleted-list"><li style="list-style-type:disc">Create a file called <code>Modelfile</code> . ( can create your own name)</li></ul><ul id="9ef6af09-6134-40c1-a89c-9beb7b2659f0" class="bulleted-list"><li style="list-style-type:disc">Template of <code>Modelfile</code> Eg: (shown for qwen2:0.5b) <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="fae96d4f-310b-4dfa-8ac0-e58dc2fe546a" class="code"><code class="language-Shell">FROM qwen2:0.5b	
+
+TEMPLATE &quot;&quot;&quot;{{ if .System }}&lt;|im_start|&gt;system
+{{ .System }}&lt;|im_end|&gt;
+{{ end }}{{ if .Prompt }}&lt;|im_start|&gt;user
+{{ .Prompt }}&lt;|im_end|&gt;
+{{ end }}&lt;|im_start|&gt;assistant
+{{ .Response }}&lt;|im_end|&gt;
+&quot;&quot;&quot;
+
+PARAMETER temperature 1.0
+PARAMETER stop &lt;|im_start|&gt;
+PARAMETER stop &lt;|im_end|&gt;
+PARAMETER num_ctx 2048
+PARAMETER num_predict 128
+PARAMETER top_k 40
+PARAMETER top_p 0.9
+
+SYSTEM &quot;&quot;&quot;You are helpful assistant&quot;&quot;&quot;</code></pre></li></ul><ul id="f3f70067-e585-43d8-929e-af3b6e7dfd42" class="bulleted-list"><li style="list-style-type:disc"><strong>For other models</strong> you can take help of <code>/show modelfile</code> copy it and change the required parameters.</li></ul><ul id="70e462f6-f1e9-48ab-b22d-397ebfa4404a" class="bulleted-list"><li style="list-style-type:disc">Save it as a file (e.g. Modelfile)</li></ul><ul id="e3281d4c-6e9c-4797-b255-138be0e44141" class="bulleted-list"><li style="list-style-type:disc">Then run <code>ollama create needed_model_name  -f &lt;location of the file e.g. ./Modelfile&gt;</code></li></ul><ul id="8ea8f3cc-0e33-4a5f-8e5b-3b11c0a2b567" class="bulleted-list"><li style="list-style-type:disc">Then run <code>ollama run needed_model_name</code></li></ul><ul id="bcd9b1a8-5b6d-4b3e-a937-cb1174d38f96" class="bulleted-list"><li style="list-style-type:disc">Start using your own model!</li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">3rd Method - Hugging Face models - External file</summary><div class="indented"><ul id="6d3252d9-ad2f-4cc3-bc9c-7ec70c0d4cac" class="bulleted-list"><li style="list-style-type:disc">Create a file called <code>Modelfile</code>. ( can create your own name)</li></ul><ul id="076230d7-1ce5-4025-be51-86a381828264" class="bulleted-list"><li style="list-style-type:disc"><a href="https://huggingface.co/models">https://huggingface.co/models</a> </li></ul><ul id="1a8db62f-8666-4ccb-ad10-63d678e57b70" class="bulleted-list"><li style="list-style-type:disc"><a href="https://huggingface.co/BioMistral/BioMistral-7B-GGUF/blob/main/ggml-model-Q3_K_L.gguf">Click here to see sample</a><ul id="b7cfee97-c0f7-4a94-8e17-8349b8795d60" class="bulleted-list"><li style="list-style-type:circle">Download the file with GGUF Format Eg:- BioMistral/BioMistral-7B-GGUF </li></ul><ul id="f4521920-dfef-494b-806e-79d56276b5b3" class="bulleted-list"><li style="list-style-type:circle"><mark class="highlight-purple"><a href="https://discuss.huggingface.co/t/how-to-download-a-model-and-run-it-with-ollama-locally/77317/17">Reference for downloading.</a></mark></li></ul><ul id="d16a0d12-0d64-491f-972b-15129424e33b" class="bulleted-list"><li style="list-style-type:circle">supported is <code>.bin</code> and <code>.gguf</code></li></ul></li></ul><ul id="7ac3f800-e0e8-4d7e-9aef-17fd068b2222" class="bulleted-list"><li style="list-style-type:disc">Template of <code>Modelfile</code> Eg: (randomly small model below) <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="f8f1d66c-2f23-41b4-a47b-d438f8c5ae78" class="code"><code class="language-Shell">FROM ./ggml-model-Q3_K_L.gguf
+
+TEMPLATE &quot;&quot;&quot;[INST] {{ .System }} {{ .Prompt }} [/INST]&quot;&quot;&quot;
+
+PARAMETER stop &quot;[INST]&quot;
+PARAMETER stop &quot;[/INST]&quot;
+
+SYSTEM You are Rama, acting as an assistant.</code></pre></li></ul><ul id="56dde065-e851-4ead-ac17-89ddbce064c6" class="bulleted-list"><li style="list-style-type:disc"><strong>For other models</strong> write FROM ./(downloaded_model_name)  </li></ul><ul id="1e345058-72b0-4338-bffd-e1b06850e033" class="bulleted-list"><li style="list-style-type:disc">Get the Template for models from the hugging face model card at end.</li></ul><ul id="f52d68f8-a351-4e15-918d-07862370ea2c" class="bulleted-list"><li style="list-style-type:disc">Save it as a file (e.g. Modelfile)</li></ul><ul id="937dd0e6-adb8-4183-8cde-60d3dd704911" class="bulleted-list"><li style="list-style-type:disc">Then run <code>ollama create needed_model_name  -f &lt;location of the file e.g. ./Modelfile&gt;</code></li></ul><ul id="df55a734-b97b-49c1-9551-e236302ed04b" class="bulleted-list"><li style="list-style-type:disc">Then run <code>ollama run needed_model_name</code></li></ul><ul id="c67258be-4567-43d0-aff5-28d2bca51ec7" class="bulleted-list"><li style="list-style-type:disc">Start using your own model!</li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Delete the models </summary><div class="indented"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="f6b047d6-07e7-4874-b9eb-e84657466d96" class="code"><code class="language-Shell">ollama rm model_name</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Upload the models on Ollama </summary><div class="indented"><ul id="a4e0d926-2b88-423a-bb22-2af1ee69131b" class="bulleted-list"><li style="list-style-type:disc">First Create model eg:  <code>ollama create aiml5thsem/shreeshaaibot -f Modelfile</code></li></ul><ul id="8bbd2f43-2496-40c8-a573-0e11a69505bf" class="bulleted-list"><li style="list-style-type:disc">Get the ssh key using this script <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="ca06a37c-5034-4ec8-967a-fbb83dfa4322" class="code"><code class="language-Python">import os
+
+# Set the environment variable to the path of id_ed25519.pub
+os.environ[&#x27;PUB_KEY_PATH&#x27;] = os.path.expanduser(&quot;~/.ollama/id_ed25519.pub&quot;)
+
+# Now you can access the environment variable in your Python code
+pub_key_path = os.getenv(&#x27;PUB_KEY_PATH&#x27;)
+print(pub_key_path)  # Verify that the path is correctly set
+
+# Read the contents of the public key file
+with open(pub_key_path, &#x27;r&#x27;) as f:
+    public_key = f.read()
+
+# Print the public key
+print(public_key)</code></pre></li></ul><ul id="3b19712d-aed6-4cdb-b457-c8344a82396c" class="bulleted-list"><li style="list-style-type:disc">You will a key like : <code>ssh-ed25519 AAA ..................</code></li></ul><ul id="011c9b3e-0189-41fa-a563-6bcff713f1e8" class="bulleted-list"><li style="list-style-type:disc">Then run Eg: <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="afffa8eb-171c-44e3-b72f-80bfbbe0a345" class="code"><code class="language-Python">ollama push aiml5thsem/shreeshaaibot</code></pre></li></ul><ul id="056dedc0-b8d7-4a8d-9838-600869e77107" class="bulleted-list"><li style="list-style-type:disc">Share to any one the model so any one can download your model.</li></ul></div></details><p id="2f14f1b1-34ef-4378-92e1-1bbd3f83d212" class="">
+</p><figure class="block-color-teal_background callout" style="white-space:pre-wrap;display:flex" id="ed21db9e-ddbb-438a-ba89-145e40f5e58c"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><mark class="highlight-red">Get more Details on creating Modelfile in </mark><mark class="highlight-red"><a href="https://github.com/ollama/ollama/blob/main/docs/modelfile.md">here </a></mark></div></figure><figure id="6daa73e4-eece-4d7d-85f9-eff4e80a140b"><div class="source">https://github.com/ollama/ollama/blob/main/docs/modelfile.md</div></figure><p id="9e3cded2-f181-49ce-b829-5b1cbea6056f" class="">
+</p><ul id="da399151-c1b1-42ea-bb9f-9e780253f1cc" class="bulleted-list"><li style="list-style-type:disc">If needed Can Download My uploaded model - <a href="https://ollama.com/aiml5thsem/shreeshaaibot">https://ollama.com/aiml5thsem/shreeshaaibot</a> (as the models i chosen is small it may not be efficient in answering)</li></ul><p id="b447d03b-17b0-4401-b885-fa757d41d83e" class="">
+</p></div></details><details open=""><summary style="font-weight:600;font-size:1.875em;line-height:1.3;margin:0">Rest API call using curl</summary><div class="indented"><p id="29b03cf0-634a-42cd-9af8-87207adf70b2" class="">
+</p><ul id="230b7c1d-5e41-4905-bd50-ec079289a1bf" class="toggle"><li><details open=""><summary>Install Curl in Ubuntu </summary><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="87aa6353-3b41-4b0e-a9e5-e0db78403004" class="code"><code class="language-Shell">sudo apt install curl</code></pre></details></li></ul><ul id="5bd9bc2c-7abf-494a-967a-03052e77d254" class="toggle"><li><details open=""><summary>Install Curl in Windows</summary><p id="d1ee95bf-6c18-4fe2-a1f8-57487bfd8c3e" class=""><mark class="highlight-pink"><strong> - Download from here :  </strong></mark><mark class="highlight-pink"><strong><a href="https://curl.se/windows/">https://curl.se/windows/</a></strong></mark></p><ul id="bbdebca6-0569-4e7a-a4d3-d9934a1d16df" class="bulleted-list"><li style="list-style-type:disc">Install it </li></ul></details></li></ul><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">REST API</summary><div class="indented"><p id="baeaeae7-7339-480d-b345-82aac202ae41" class="">Ollama has a REST API for running and managing models.</p><h3 id="f3a8176b-44ae-42a2-a659-a81104c8edd7" class="">Generate a response</h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="6ffbaf8b-fc09-4994-8c24-5bd8ebfd0d98" class="code"><code class="language-PowerShell" style="white-space:pre-wrap;word-break:break-all">curl -X POST http://localhost:11434/api/generate -H &quot;Content-Type: application/json&quot; -d &quot;{\&quot;model\&quot;: \&quot;qwen2:0.5b\&quot;,\&quot;prompt\&quot;: \&quot;hi\&quot;,\&quot;stream\&quot;: false}&quot;
+</code></pre><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="9afb003c-2cc1-4fd2-86a6-8ca222e4ebe8" class="code"><code class="language-Shell">curl -X POST http://localhost:11434/api/generate \
+     -H &quot;Content-Type: application/json&quot; \
+     -d &#x27;{
+           &quot;model&quot;: &quot;qwen2:0.5b&quot;,
+           &quot;prompt&quot;: &quot;hi&quot;,
+           &quot;stream&quot;: false
+         }&#x27;</code></pre><h3 id="bef88fa7-c902-46f9-b385-53be4496c347" class="">Chat with a model</h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="9ceef21a-616b-40fb-8b86-0f23732cfc83" class="code"><code class="language-PowerShell" style="white-space:pre-wrap;word-break:break-all">curl -X POST http://localhost:11434/api/chat -H &quot;Content-Type: application/json&quot; -d &quot;{\&quot;model\&quot;: \&quot;qwen2:0.5b\&quot;, \&quot;messages\&quot;: [{\&quot;role\&quot;: \&quot;user\&quot;, \&quot;content\&quot;: \&quot;hi\&quot;}]}&quot;
+</code></pre><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="060707ef-4fdc-492d-86b8-52d5f7866598" class="code"><code class="language-Shell">curl -X POST http://localhost:11434/api/chat -H &quot;Content-Type: application/json&quot; -d &#x27;{
+  &quot;model&quot;: &quot;qwen2:0.5b&quot;,
+  &quot;messages&quot;: [
+    { &quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;why is the sky blue?&quot; }
+  ]
+}&#x27;</code></pre><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="23ff30fa-5d31-4d37-b114-b2a82a34a46c" class="code"><code class="language-Shell">curl http://localhost:11434/api/chat -d &#x27;{
+  &quot;model&quot;: &quot;llama3&quot;,
+  &quot;messages&quot;: [
+    {
+      &quot;role&quot;: &quot;user&quot;,
+      &quot;content&quot;: &quot;why is the sky blue?&quot;
+    },
+    {
+      &quot;role&quot;: &quot;assistant&quot;,
+      &quot;content&quot;: &quot;due to rayleigh scattering.&quot;
+    },
+    {
+      &quot;role&quot;: &quot;user&quot;,
+      &quot;content&quot;: &quot;how is that different than mie scattering?&quot;
+    }
+  ]
+}&#x27;</code></pre></div></details></div></details><details open=""><summary style="font-weight:600;font-size:1.875em;line-height:1.3;margin:0">Python Environment Setup</summary><div class="indented"><p id="eb34f3e3-e909-48b8-a327-57eb43a83434" class="">
+</p><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Python Basic Setup</summary><div class="indented"><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Introduction to Python</summary><div class="indented"><p id="be9dddf6-d2ee-4812-b49c-f2f47089637d" class="">Python is a versatile and powerful programming language that&#x27;s widely used for various applications, ranging from web development to data science. </p></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Installing Python</summary><div class="indented"><ul id="483f4c6c-bcb5-4ee1-b9e1-deb1196caeff" class="bulleted-list"><li style="list-style-type:disc">The first step in setting up your Python environment is to install Python itself. </li></ul><ul id="9f9b0e39-ac4e-47bb-aa90-e52ace8e1a02" class="bulleted-list"><li style="list-style-type:disc">Visit the official Python website at <a href="http://python.org/">python.org</a> and download the latest version. </li></ul><ul id="909d25f9-5389-485d-8c6c-461306e98ce9" class="bulleted-list"><li style="list-style-type:disc">Make sure to check the box that says &quot;Add Python to PATH&quot; during installation. </li></ul><ul id="b807fca7-4e78-4645-923e-e5986e622c97" class="bulleted-list"><li style="list-style-type:disc">This ensures that you can run Python from the command line without any issues. </li></ul><ul id="f7e1c2b0-9d92-418f-9769-d5b1fa559c0a" class="bulleted-list"><li style="list-style-type:disc">Once installed, you can verify the installation by opening a terminal or command prompt and typing <code>python --version</code>.</li></ul><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Python Installation for Windows</summary><div class="indented"><h2 id="f3981ad9-9cbb-4254-ba5a-3a49a9183362" class=""><mark class="highlight-red"><strong><a href="https://www.python.org/ftp/python/3.12.4/python-3.12.4-amd64.exe">Click Here to Download</a></strong></mark></h2><h3 id="76f981cf-ac8e-480d-8eb7-a4bf7da87ca8" class="">                                                                             <mark class="highlight-pink">  OR </mark></h3><figure id="2b473752-3881-46da-98e7-039e6423a942"><a href="https://www.python.org/downloads/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Download Python</div><div class="bookmark-description">The official home of the Python Programming Language</div></div><div class="bookmark-href"><img src="https://www.python.org/static/apple-touch-icon-144x144-precomposed.png" class="icon bookmark-icon"/>https://www.python.org/downloads/</div></div><img src="https://www.python.org/static/opengraph-icon-200x200.png" class="bookmark-image"/></a><figcaption>Go to this Website</figcaption></figure></div></details><p id="735de099-f9f4-417e-8e91-411884235d7b" class="">
+</p></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Setting Up a Virtual Environment</summary><div class="indented"><ul id="ce6b7313-888c-472a-a8be-b934af49e154" class="bulleted-list"><li style="list-style-type:disc">A virtual environment is crucial for managing dependencies and keeping your projects organized. </li></ul><ul id="138fffe7-521a-41b2-a58c-0efc4ca0109e" class="bulleted-list"><li style="list-style-type:disc">It allows you to create isolated environments for different projects, preventing conflicts between packages. </li></ul><ul id="6aed8c16-35ea-4a24-b312-eb08468b11ed" class="bulleted-list"><li style="list-style-type:disc">To create a virtual environment, navigate to your project directory and run <code>python -m venv env</code>. </li></ul><ul id="f0d67906-ac60-4f48-83e7-22bd4c88454c" class="bulleted-list"><li style="list-style-type:disc">This command will create a folder named <code>env</code> containing the virtual environment. </li></ul><ul id="5007f94c-728d-43f4-891f-205724966a40" class="bulleted-list"><li style="list-style-type:disc">Activate it by running <code>source env/bin/activate</code> on Unix </li></ul><ul id="a69070a8-d0f2-428e-8c85-138dbe910de7" class="bulleted-list"><li style="list-style-type:disc">Activate it by running <code>env\\Scripts\\activate</code> on Windows. </li></ul><ul id="21a416e8-1073-438b-8cb3-55bea4191209" class="bulleted-list"><li style="list-style-type:disc">You can now install packages specific to this environment using <code>pip</code>.</li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Installing Essential Packages</summary><div class="indented"><ul id="8688c023-1e17-4e54-8546-e47e3c97d90f" class="bulleted-list"><li style="list-style-type:disc"><code>pip</code> is the package installer for Python and can be used to install various libraries and tools. </li></ul><ul id="ce84bc89-9690-4993-9ea4-bc072bb94c0c" class="bulleted-list"><li style="list-style-type:disc">Some commonly used packages include <code>numpy</code> for numerical computations, <code>pandas</code> for data manipulation, and <code>flask</code> for web development. </li></ul><ul id="47f89ae6-a07a-4173-b13b-03b8ab3fd874" class="bulleted-list"><li style="list-style-type:disc">You can install these packages by running <code>pip install package_name</code>. </li></ul><ul id="b51377ab-abba-431e-843b-e4a2e0011ea0" class="bulleted-list"><li style="list-style-type:disc">Additionally, you can create a <code>requirements.txt</code> file to list all your project dependencies, which can be installed in one go using <code>pip install -r requirements.txt</code>.</li></ul></div></details></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Libraries required to download</summary><div class="indented"><p id="c8f8f014-82d4-46f4-ba32-987a4701041e" class="">
+</p><ol type="1" id="263de495-fe2a-416d-ae56-1dafd02def29" class="numbered-list" start="1"><li>ollama library : - Natural Language Processing (NLP) toolkit for tasks like sentiment analysis and text summarization<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="894b439a-11f0-4360-99b8-4af3f667b0e2" class="code"><code class="language-PowerShell">pip install ollama</code></pre></li></ol><ol type="1" id="3504c607-0f78-4048-882d-a40a7d008178" class="numbered-list" start="2"><li>requests library : - Makes HTTP requests for data retrieval from web services (APIs).<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="16b1e52c-5bd4-48bf-8169-8ddcb2906c03" class="code"><code class="language-PowerShell">pip install requests</code></pre></li></ol><ol type="1" id="2f4ce035-15a0-499b-8c4e-dd425f362f8f" class="numbered-list" start="3"><li>openai library : - Interface to interact with OpenAI&#x27;s large language models (LLMs) for text generation and other NLP tasks.<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="c3efe8c3-c256-4462-b284-3a1deb3949da" class="code"><code class="language-PowerShell">pip install openai</code></pre></li></ol><ol type="1" id="13ddcfb8-9e1d-4875-a8d8-a710b824c762" class="numbered-list" start="4"><li>langchain library : - Framework for building and training NLP pipelines (likely for advanced users)<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="ded2c722-672e-4b17-91d1-d147db2458dc" class="code"><code class="language-PowerShell">pip install langchain langchain_community</code></pre></li></ol><ol type="1" id="b7f1ea86-21d9-4701-a381-65877d23f1f7" class="numbered-list" start="5"><li>chainlit library : - Builds production-ready chatbots in Python with features like multi-modal chat and data persistence.<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3d852b0d-ae71-4c9c-92ab-0f2a0762fcb5" class="code"><code class="language-Shell">pip install chainlit</code></pre></li></ol><ol type="1" id="fde4b1a1-03ed-4f14-8af3-42e672a0d085" class="numbered-list" start="6"><li>streamlit library : - Creates web apps for data visualization and user interaction.<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="6b89442f-f472-47d2-9c17-4f21cbcedf41" class="code"><code class="language-PowerShell">pip install streamlit</code></pre></li></ol><ol type="1" id="37120fd4-0693-4cc9-a05e-fd92b80c9c71" class="numbered-list" start="7"><li>pyttsx3 library : - Converts text to speech for audio generation.<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="41e52616-7863-41ad-8701-b957601fab84" class="code"><code class="language-PowerShell">pip install pyttsx3</code></pre></li></ol><ol type="1" id="9f109d2a-06a1-413e-a417-155d3cd132fa" class="numbered-list" start="8"><li>gtts library : - Converts text to speech for generating downloadable MP3 files <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="a8c3a9e9-ca36-4693-95ed-5e1155041aa6" class="code"><code class="language-Python">pip install gtts</code></pre></li></ol></div></details></div></details><details open=""><summary style="font-weight:600;font-size:1.875em;line-height:1.3;margin:0">Using Python Libraries with Ollama</summary><div class="indented"><p id="9ae2b65d-0616-4f52-aaf2-9ae164fa32f1" class="">
+</p><figure class="block-color-teal_background callout" style="white-space:pre-wrap;display:flex" id="302a2493-33dd-4a3e-a8b1-6d8a08af154f"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><mark class="highlight-purple"><strong>When the app is running, all models are automatically served on </strong></mark><mark class="highlight-red"><code><strong>localhost:11434</strong></code></mark></div></figure><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Basics information required </summary><div class="indented"><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">1. Streaming</summary><div class="indented"><p id="1acb91a4-9e05-40a6-a2b9-434b01c2b3ae" class=""><strong>Streaming generation</strong> involves producing and delivering the output incrementally as it is generated. This approach has several benefits:<div class="indented"><ul id="6abbd753-745d-439c-9ef8-88102ae77b51" class="bulleted-list"><li style="list-style-type:disc"><strong>Faster initial response</strong>: Users start receiving parts of the response sooner, improving perceived responsiveness.</li></ul><ul id="e24125d8-5df0-49ed-a6ce-f3fec4d177c5" class="bulleted-list"><li style="list-style-type:disc"><strong>Interactive use cases</strong>: Useful in interactive applications like chatbots, where users can see and start processing parts of the answer before the entire response is complete.</li></ul><ul id="bd18ce8d-6af4-4705-b3ee-3c2f0895160d" class="bulleted-list"><li style="list-style-type:disc"><strong>Reduced latency</strong>: For large outputs, streaming reduces the waiting time by splitting it into smaller chunks.</li></ul><p id="c12b4159-6e7e-474e-9f71-0de3e9d8d681" class=""><strong>Example in context</strong>: When you ask a question to a chatbot, and it starts responding immediately, giving you one word or sentence at a time, that&#x27;s streaming.</p></div></p></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">2. Non-Streaming</summary><div class="indented"><p id="714f0ab2-0bdf-44a4-969f-dc83ca478ace" class=""><strong>Non-streaming generation</strong> involves generating the entire output first and then delivering it as a single chunk. This method also has its advantages:<div class="indented"><ul id="4052eeed-d2f3-4e29-9731-a8a3434814a5" class="bulleted-list"><li style="list-style-type:disc"><strong>Consistency</strong>: The model can ensure that the entire response is coherent and complete before delivering it.</li></ul><ul id="43dfbade-3179-4b2c-8660-5fccad6b9c6c" class="bulleted-list"><li style="list-style-type:disc"><strong>Batch processing</strong>: Suitable for applications where responses need to be processed in bulk or stored before delivery.</li></ul><ul id="0f4fb79a-581f-4b85-82c2-b8f3528e307b" class="bulleted-list"><li style="list-style-type:disc"><strong>Use in backend processes</strong>: Often used in scenarios where immediate interaction isn&#x27;t required, such as generating reports or documents.</li></ul><p id="073386bf-a67a-428e-843a-8c3f549bbe65" class=""><strong>Example in context</strong>: When you submit a form and receive a fully compiled response only after processing is complete, that&#x27;s non-streaming.</p></div></p></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0"><strong>3. Generate</strong></summary><div class="indented"><p id="2f27955f-9c06-4c2d-b6e4-66413f72fd04" class=""><strong>Generate </strong>refers to the model producing text based on a given prompt without expecting further interaction. The generated text is typically a single, continuous output.</p></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0"><strong>4. Chat</strong></summary><div class="indented"><p id="832b9230-57e1-4969-8643-b63367ab3518" class=""><strong>Chat </strong>involves interactive dialogue between the user and the model, where the model responds to user inputs iteratively. This interaction can involve multiple exchanges, allowing for more dynamic and contextual responses.</p></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">5. Request  Status codes</summary><div class="indented"><table id="84ce9d35-09e1-4b31-b865-c604816485e1" class="simple-table"><tbody><tr id="25afb767-b7b9-4d8f-a6a7-ed79f54205c4"><td id="ec^r" class="">Status Code</td><td id="Kbme" class="">Meaning</td><td id="DXFk" class="">Description</td></tr><tr id="2fa0bb6c-5a2d-4d56-bb5d-7ae22953c40a"><td id="ec^r" class="">200</td><td id="Kbme" class="">OK</td><td id="DXFk" class="">The request has succeeded.</td></tr><tr id="ee116331-f923-4c57-8d51-84046eb54f93"><td id="ec^r" class="">201</td><td id="Kbme" class="">Created</td><td id="DXFk" class="">The request has been fulfilled, resulting in the creation of a new resource.</td></tr><tr id="c10927c9-2f82-4963-a0bc-bc8d3952ad54"><td id="ec^r" class="">400</td><td id="Kbme" class="">Bad Request</td><td id="DXFk" class="">The server could not understand the request due to invalid syntax.</td></tr><tr id="12a734ea-46fb-4c9a-a35a-82dab6bbc040"><td id="ec^r" class="">401</td><td id="Kbme" class="">Unauthorized</td><td id="DXFk" class="">The client must authenticate itself to get the requested response.</td></tr><tr id="8be72a9e-a6db-4650-baaa-12353c5f9966"><td id="ec^r" class="">403</td><td id="Kbme" class="">Forbidden</td><td id="DXFk" class="">The client does not have access rights to the content.</td></tr><tr id="0791b724-4dcb-46a6-8340-d969b84c07f0"><td id="ec^r" class="">404</td><td id="Kbme" class="">Not Found</td><td id="DXFk" class="">The server can not find the requested resource.</td></tr><tr id="49216ed2-719d-407c-93c7-93c7b0554331"><td id="ec^r" class="">500</td><td id="Kbme" class="">Internal Server Error</td><td id="DXFk" class="">The server has encountered a situation it doesn&#x27;t know how to handle.</td></tr><tr id="77884e18-485f-4558-8690-b88bbea3ce9c"><td id="ec^r" class="">503</td><td id="Kbme" class="">Service Unavailable</td><td id="DXFk" class="">The server is not ready to handle the request.</td></tr></tbody></table></div></details></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0"><mark class="highlight-pink">Using ollama library </mark></summary><div class="indented"><ul id="1a188105-a6bd-455c-9d29-8b173801d69a" class="bulleted-list"><li style="list-style-type:disc">Ollama has a Python library that makes it easier to build Python apps using various LLMs on your own machine.</li></ul><ol type="1" id="caa4cf51-1064-4130-ad2e-2c0765824c20" class="numbered-list" start="1"><li><mark class="highlight-red"><strong>Generating Content </strong></mark></li></ol><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="ef831cfe-de22-48aa-89db-d15ba4aa5421" class="code"><code class="language-Python">from ollama import generate
+
+model = &quot;qwen2:0.5b&quot;
+system_instruction = &quot;You are a helpful assistant.&quot;
+
+user_input = input(&quot;You: &quot;)
+
+response = generate(model=model, prompt=user_input, system=system_instruction, stream=False)
+print(response[&#x27;response&#x27;])</code></pre><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="306b3daf-8de5-416e-a9f1-9aa131b02ff4" class="code"><code class="language-Python">from ollama import generate
+
+model = &quot;qwen2:0.5b&quot;
+system_instruction = &quot;You are a helpful assistant.&quot;
+
+user_input = input(&quot;You: &quot;)
+
+for part in generate(model=model, prompt=user_input, system=system_instruction, stream=True):
+    print(part[&#x27;response&#x27;], end=&#x27;&#x27;, flush=True)</code></pre><ol type="1" id="996a700d-6d95-406d-b254-f74f613eda71" class="numbered-list" start="2"><li><mark class="highlight-red"><strong>Chatting </strong></mark></li></ol><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="36217aa7-564c-4a3c-a32e-dc618515df62" class="code"><code class="language-Python">from ollama import chat
+
+model = &quot;qwen2:0.5b&quot;
+chat_history = []
+
+while True:
+    user_input = input(&quot;You: &quot;)
+    
+    if user_input == &quot;bye&quot;:
+        break
+        
+    chat_history.append({&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: user_input})
+    
+    response = chat(model, messages=chat_history, stream=False) 
+    reply = response[&#x27;message&#x27;][&#x27;content&#x27;]
+    
+    chat_history.append({&#x27;role&#x27;: &#x27;assistant&#x27;, &#x27;content&#x27;: reply})
+    print(&quot;Bot:&quot;,reply)</code></pre><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="5822c99b-5e11-47ea-be5b-dbde6fbbf103" class="code"><code class="language-Python">from ollama import chat
+
+model = &quot;qwen2:0.5b&quot;
+chat_history = []
+
+while True:
+    user_input = input(&quot;You: &quot;)
+    
+    if user_input == &quot;bye&quot;:
+        break
+    chat_history.append({&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: user_input})
+    
+    stream = chat(model, messages=chat_history, stream=True) 
+    reply = &#x27;&#x27;
+    for chunk in stream:
+        reply += chunk[&#x27;message&#x27;][&#x27;content&#x27;]
+        print(chunk[&#x27;message&#x27;][&#x27;content&#x27;], end=&#x27;&#x27;, flush=True)
+        
+    print()
+    chat_history.append({&#x27;role&#x27;: &#x27;assistant&#x27;, &#x27;content&#x27;: reply})</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0"><mark class="highlight-brown">Using requests library </mark></summary><div class="indented"><ul id="a2850632-54fd-4ff9-9c6a-2ca34ec64d9d" class="bulleted-list"><li style="list-style-type:disc">The requests library can be used to interact with Ollama&#x27;s API for both streaming and non-streaming generation. </li></ul><ol type="1" id="d6c20e8e-f84f-4197-8d90-dca20eee03b4" class="numbered-list" start="1"><li><mark class="highlight-red"><strong>Generating Content </strong></mark><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="d251c322-ac99-419e-9ce4-b95b5e834b31" class="code"><code class="language-Python">import requests
+import json
+
+URL = &quot;http://localhost:11434/api/generate&quot;
+
+system_instruction = &quot;You are a helpful assistant.&quot;
+
+headers = {
+    &quot;Content-Type&quot;: &quot;application/json&quot;,
+}
+
+while True:
+    user_input = input(&quot;You: &quot;)
+
+    if user_input == &quot;bye&quot;:
+        break
+    
+    payload = {
+      &quot;model&quot;: &quot;llama3&quot;,
+      &quot;prompt&quot;: user_input,
+      &quot;stream&quot;: False,
+      &quot;system&quot;: system_instruction,
+      &quot;keep_alive&quot;: 600
+    }
+    
+    response = requests.post(URL, headers=headers, json=payload)
+
+    if response.status_code == 200:
+        json_data = json.loads(response.text)
+        text_content = json_data[&quot;response&quot;]
+        print(&quot;Bot:&quot;, text_content)
+    else:
+        print(&quot;!!!! Sorry there was an error !!!!&quot;)
+        break</code></pre><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="24b9d196-8106-454d-9178-aed20842ad24" class="code"><code class="language-Python">import json
+import requests
+
+model = &#x27;qwen2:0.5b&#x27;
+context = []
+
+def generate(prompt, context):
+    r = requests.post(&#x27;http://localhost:11434/api/generate&#x27;,
+                      json={
+                          &#x27;model&#x27;: model,
+                          &#x27;prompt&#x27;: prompt,
+                          &#x27;context&#x27;: context,
+                      },
+                      stream=True)
+    r.raise_for_status()
+
+    for line in r.iter_lines():
+        body = json.loads(line)
+        response_part = body.get(&#x27;response&#x27;, &#x27;&#x27;)
+        print(response_part, end=&#x27;&#x27;, flush=True)
+
+        if &#x27;error&#x27; in body:
+            raise Exception(body[&#x27;error&#x27;])
+
+        if body.get(&#x27;done&#x27;, False):
+            return body[&#x27;context&#x27;]
+
+while True:
+    user_input = input(&quot;You: &quot;)
+    if not user_input:
+        exit()
+
+    context = generate(user_input, context)
+    print()</code></pre></li></ol><ol type="1" id="c58a1952-a782-4eec-bf51-dec54e46bd4e" class="numbered-list" start="2"><li><mark class="highlight-red"><strong>Chatting </strong></mark><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="f0eb4118-4b69-4bf7-a6ff-658c99dbdfc0" class="code"><code class="language-Python">import requests
+import json
+
+URL = &quot;http://localhost:11434/api/chat&quot;
+
+system_instruction = &quot;You are a helpful assistant.&quot;
+
+headers = {
+    &quot;Content-Type&quot;: &quot;application/json&quot;,
+}
+
+messages_history = []
+
+while True:
+    user_input = input(&quot;You: &quot;)
+
+    if user_input == &quot;bye&quot;:
+        break
+    
+    messages_history.append({&quot;role&quot;: &quot;user&quot;,&quot;content&quot;: user_input},)
+    
+    payload = {
+      &quot;model&quot;: &quot;qwen2:0.5b&quot;,
+      &quot;messages&quot;: messages_history,
+      &quot;stream&quot;: False,
+      &quot;system&quot;: system_instruction,
+      &quot;keep_alive&quot;: 150
+    }
+    
+    response = requests.post(URL, headers=headers, json=payload)
+
+    if response.status_code == 200:
+        json_data = json.loads(response.text)
+        text_content = json_data[&quot;message&quot;][&quot;content&quot;]
+        messages_history.append({&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: text_content})
+        print(&quot;Bot:&quot;, text_content)
+    else:
+        print(&quot;!!!! Sorry there was an error !!!!&quot;)
+        break
+</code></pre><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="6f7f9c81-1e8c-4cb3-95ef-5f45c167bfb2" class="code"><code class="language-Python">import json
+import requests
+
+model = &quot;qwen2:0.5b&quot;
+messages = []
+
+def chat(messages):
+    r = requests.post(
+        &quot;http://localhost:11434/api/chat&quot;,
+        json={&quot;model&quot;: model, &quot;messages&quot;: messages, &quot;stream&quot;: True},
+	stream=True
+    )
+    r.raise_for_status()
+    output = &quot;&quot;
+
+    for line in r.iter_lines():
+        body = json.loads(line)
+        if &quot;error&quot; in body:
+            raise Exception(body[&quot;error&quot;])
+        if body.get(&quot;done&quot;) is False:
+            message = body.get(&quot;message&quot;, &quot;&quot;)
+            content = message.get(&quot;content&quot;, &quot;&quot;)
+            output += content
+            # the response streams one token at a time, print that as we receive it
+            print(content, end=&quot;&quot;, flush=True)
+
+        if body.get(&quot;done&quot;, False):
+            message[&quot;content&quot;] = output
+            return message
+
+while True:
+    user_input = input(&quot;You: &quot;)
+    
+    if not user_input:
+        exit()
+            
+    messages.append({&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: user_input})
+    message = chat(messages)
+    messages.append(message)
+    print(&quot;\n&quot;)</code></pre></li></ol></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0"><mark class="highlight-teal">Using openai library </mark></summary><div class="indented"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="8405ec7e-fb1d-47fc-b41e-1470baa0edc9" class="code"><code class="language-Python">from openai import OpenAI
+
+client = OpenAI(
+    base_url=&#x27;http://localhost:11434/v1/&#x27;,
+    api_key=&#x27;ollama&#x27;, # required but ignored
+)
+
+messages=[
+    {&#x27;role&#x27;: &#x27;system&#x27;,&#x27;content&#x27;: &#x27;You are a kind helpful assistant.&#x27;},
+]
+
+while True:
+    user_input = input(&quot;You: &quot;)
+    
+    if user_input == &quot;bye&quot;:
+        break
+    
+    messages.append({&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: user_input},)
+    
+    chat = client.chat.completions.create(
+        model=&quot;qwen2:0.5b&quot;, messages=messages
+    )
+    reply = chat.choices[0].message.content
+    messages.append({&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: reply})
+    
+    print(f&quot;Bot: {reply}&quot;)</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0"><mark class="highlight-orange">Using langchain library </mark></summary><div class="indented"><ul id="e85a930e-b91c-4eae-bb05-7fff1e3f6e2f" class="bulleted-list"><li style="list-style-type:disc">Langchain is a versatile library that integrates with Ollama to streamline model invocations.</li></ul><ul id="915538a9-608a-497d-ac26-387e030ad596" class="bulleted-list"><li style="list-style-type:disc">Below is an example of how to use the Langchain library with an Ollama model:</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="f331604e-c534-4d56-b085-36e61ae1082d" class="code"><code class="language-Python">from langchain_community.llms import Ollama
+
+llm = Ollama(model=&quot;qwen2:0.5b&quot;)
+response = llm.invoke(&quot;The function used to show output in python is ...&quot;)
+print(response)</code></pre><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="56a56977-9c6d-4578-a4bd-294171bc68c2" class="code"><code class="language-Python">from langchain.callbacks.manager import CallbackManager
+from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
+from langchain_community.llms import Ollama
+
+llm = Ollama(
+    model=&quot;qwen2:0.5b&quot;, callback_manager=CallbackManager([StreamingStdOutCallbackHandler()])
+)
+response = llm.invoke(&quot;The function used to show output in python is ...&quot;)
+print(response)</code></pre><p id="fba46eb9-68e7-45b8-959c-19ba1c0dd169" class="">
+</p></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0"><mark class="highlight-purple">Dealing with images using ollama library</mark></summary><div class="indented"><p id="07dc6aeb-ce98-4756-b939-eb61f1a9cd0f" class="">Download image here </p><div id="93143279-88e9-4b39-8c07-1dacb90cc7bd" class="column-list"><div id="64840cd0-934a-4c67-8e01-b88b99a6b85a" style="width:46.666666666666664%" class="column"><figure id="2bb22bb3-b15d-4006-876a-e0c8e8015e26" class="image" style="text-align:center"><a href="Ollama%20877eaf397480429487a43809d9598165/3ee5b016-9242-4545-a712-55177cd480e3.png"><img style="width:240px" src="Ollama%20877eaf397480429487a43809d9598165/3ee5b016-9242-4545-a712-55177cd480e3.png"/></a><figcaption>Laptop</figcaption></figure></div><div id="c2f385b3-70ec-4ed3-abe9-b6062f5d6ecd" style="width:53.333333333333336%" class="column"><figure id="d00adc99-7d0e-4e31-adf9-8f3e5abc4f99" class="image" style="text-align:center"><a href="Ollama%20877eaf397480429487a43809d9598165/vcet.jpg"><img style="width:384px" src="Ollama%20877eaf397480429487a43809d9598165/vcet.jpg"/></a><figcaption>VCET</figcaption></figure></div></div><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Generate for images using ollama library</summary><div class="indented"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="25c20a42-af4f-4fce-9553-6889c60175ae" class="code"><code class="language-Shell">from ollama import generate
+
+model = &quot;moondream&quot;
+prompt = &quot;Please describe what&#x27;s in this image.&quot;
+file_path = [&quot;Untitled.png&quot;]
+
+response = generate(model=model, prompt=prompt, images = file_path, stream=False)
+print(response[&#x27;response&#x27;])</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Chat for images using ollama library</summary><div class="indented"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="b4eb51ad-e81b-40b4-9178-c0d43ad0eae7" class="code"><code class="language-Shell">from ollama import chat
+
+response = chat(
+    model = &quot;moondream&quot;, 
+    messages = [
+        {
+            &quot;role&quot;:&quot;user&quot;,
+            &quot;content&quot;: &quot;Describe the image&quot;,
+            &quot;images&quot;: [&quot;./Untitled.jpg&quot;]
+        }
+    ]
+)
+
+print(response[&#x27;message&#x27;][&#x27;content&#x27;])</code></pre><p id="d803d698-c04d-47f1-aab6-e0d9e7919ab4" class="">
+</p></div></details><p id="c00367ba-ce06-48ba-a70f-bff728cc4be6" class="">
+</p></div></details><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0"><mark class="highlight-red">Some other uses of ollama library</mark></summary><div class="indented"><ol type="1" id="c3cf4c9a-1592-4fbd-8b37-e51748aca093" class="numbered-list" start="1"><li>Create a model <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="4b771183-2840-4ab9-9adc-3b129fcd5088" class="code"><code class="language-Python">import ollama
+
+modelfile = &quot;&quot;&quot;
+from qwen2:0.5b
+
+parameter temperature 0.99
+&quot;&quot;&quot;
+
+reponse = ollama.create(model=&quot;temp2&quot;,modelfile=modelfile)
+print(reponse[&#x27;status&#x27;])
+</code></pre></li></ol><ol type="1" id="8a67437e-5aa6-4886-84a7-f896d8cf72ec" class="numbered-list" start="2"><li>Install a model <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="b1019ebe-131b-4474-a149-4e2b2b772b8b" class="code"><code class="language-Python">import ollama
+reponse = ollama.pull(&quot;mistral&quot;)
+print(reponse[&#x27;status&#x27;])</code></pre></li></ol><ol type="1" id="7d117b68-7728-4899-9771-37e381ff08a7" class="numbered-list" start="3"><li>See the model details <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="0fd1fb62-9b1f-477c-8740-8e4ed0b2dc86" class="code"><code class="language-Python">import ollama 
+print(ollama.show(&quot;mistral&quot;</code></pre></li></ol><ol type="1" id="372c66c5-5a29-45e0-bd4b-fda570e3987c" class="numbered-list" start="4"><li>Deleting a model<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="5af6877b-93b7-4773-88e8-a7ecdbcfd7f7" class="code"><code class="language-Python">import ollama
+reponse = ollama.delete(&quot;temp1&quot;)
+print(reponse[&#x27;status&#x27;])</code></pre></li></ol><ol type="1" id="d93d5970-da8d-4902-b524-e0e3da1f5c6b" class="numbered-list" start="5"><li>Listing the models <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3edea03c-2b88-4b95-a9e1-e8325a5c76b3" class="code"><code class="language-Python">import ollama
+models = [model[&#x27;name&#x27;] for model in ollama.list()[&#x27;models&#x27;]]
+for model in models
+    print(model)</code></pre></li></ol></div></details></div></details><details open=""><summary style="font-weight:600;font-size:1.875em;line-height:1.3;margin:0">Production Ready Conversational AI</summary><div class="indented"><p id="2b971557-0a7b-4fe1-9f28-776002e46e8c" class="">
+</p><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Using Streamlit</summary><div class="indented"><ol type="1" id="6ab7c79e-4384-402b-9cbb-610438d51c09" class="numbered-list" start="1"><li>Simple application using generate → Non Streaming</li></ol><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="ae585bcb-ea06-4976-94c1-1a7bc346467f" class="code"><code class="language-Python">from ollama import generate
+import streamlit as st
+
+prompt = st.chat_input(&quot;Ask Anything ...&quot;)
+
+if prompt:
+    # display input prompt from user
+    with st.chat_message(&quot;user&quot;):
+        st.write(prompt)
+    
+    # processing 
+    with st.spinner(&quot;Thinking ...&quot;):
+        response = generate(model=&quot;qwen2:0.5b&quot;, prompt=prompt, stream=False, keep_alive=400)
+        reply = response[&#x27;response&#x27;]
+        st.write(reply)</code></pre><ol type="1" id="3ac38e22-0ee1-44a1-a6e6-87e85b66c380" class="numbered-list" start="2"><li>Simple application using generate → Streaming</li></ol><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="0bf0cc1b-8cd6-419e-9614-e78c14103cc6" class="code"><code class="language-Python">from ollama import generate
+import streamlit as st
+
+def stream_data(response):
+    for part in response:
+        yield part[&#x27;response&#x27;] + &quot; &quot;
+
+prompt = st.chat_input(&quot;Ask Anything ...&quot;)
+
+if prompt:
+    # display input prompt from user
+    with st.chat_message(&quot;user&quot;):
+        st.write(prompt)
+    
+    # processing 
+    with st.spinner(&quot;Thinking ...&quot;):
+        response = generate(model=&quot;qwen2:0.5b&quot;, prompt=prompt, stream=True, keep_alive = 400)
+        st.write_stream(stream_data(response))</code></pre><ol type="1" id="3d5d4a63-7c47-4e98-bd4e-e8d7b6c52bca" class="numbered-list" start="3"><li>Little Advanced Application using Chat → Streaming <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="b832d408-562a-49be-a21a-7852d0f289f7" class="code"><code class="language-Python">import ollama
+import streamlit as st
+
+st.title(&quot;Ollama Python Chatbot&quot;)
+
+if &quot;messages&quot; not in st.session_state:
+    st.session_state[&quot;messages&quot;] = []
+
+if &quot;model&quot; not in st.session_state:
+    st.session_state[&quot;model&quot;] = &quot;&quot;
+
+models = [model[&quot;name&quot;] for model in ollama.list()[&quot;models&quot;]]
+st.session_state[&quot;model&quot;] = st.selectbox(&quot;Choose your model&quot;, models)
+
+def model_res_generator():
+    stream = ollama.chat(
+        model=st.session_state[&quot;model&quot;],
+        messages=st.session_state[&quot;messages&quot;],
+        stream=True,
+    )
+    for chunk in stream:
+        yield chunk[&quot;message&quot;][&quot;content&quot;]
+
+# Display chat messages from history on app rerun
+for message in st.session_state[&quot;messages&quot;]:
+    with st.chat_message(message[&quot;role&quot;]):
+        st.markdown(message[&quot;content&quot;])
+
+if prompt := st.chat_input(&quot;What is up?&quot;):
+    st.session_state[&quot;messages&quot;].append({&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt})
+
+    with st.chat_message(&quot;user&quot;):
+        st.markdown(prompt)
+
+    with st.chat_message(&quot;assistant&quot;):
+        message = st.write_stream(model_res_generator())
+        st.session_state[&quot;messages&quot;].append({&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: message})
+</code></pre></li></ol></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Using Chainlit </summary><div class="indented"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="77581b40-abe3-450b-8a1c-1e4ee066e141" class="code"><code class="language-Python">import ollama
+import chainlit as cl
+
+# decorator
+@cl.on_chat_start
+async def on_chat_start():
+    cl.user_session.set(&quot;chat_history&quot;, [])
+    #cl.user_session.set(&quot;chat_history&quot;, [{&quot;role&quot;: &quot;system&quot;,
+    #                     &quot;content&quot;: &quot;behave as if you are news reporter.&quot;}])
+
+@cl.on_message
+async def generate_response(query: cl.Message):
+    chat_history = cl.user_session.get(&quot;chat_history&quot;)
+    chat_history.append({&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: query.content})
+    
+    response = cl.Message(content=&quot;&quot;)
+    answer = ollama.chat(model=&quot;qwen2:0.5b&quot;, messages=chat_history, stream=True)
+    
+    complete_answer = &quot;&quot;
+    for token_dict in answer:
+        token = token_dict[&quot;message&quot;][&quot;content&quot;]
+        complete_answer += token
+        await response.stream_token(token)
+    
+    chat_history.append({&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: complete_answer})    
+    cl.user_session.set(&quot;chat_history&quot;, chat_history)
+
+    await response.send()</code></pre><ul id="c7c472a6-498c-4ba2-9ccb-aeab488803e0" class="toggle"><li><details open=""><summary><code>async</code> </summary><p id="d63277f6-272d-4c36-969a-236b924a1e47" class="">It enables asynchronous programming, a technique for handling multiple tasks concurrently without blocking the main thread, improving responsiveness for I/O-bound operations.</p></details></li></ul><ul id="7d33e8af-b154-4a53-bec2-69004dc4c670" class="toggle"><li><details open=""><summary><code>await</code> </summary><p id="fcfcc7c4-89cf-43f0-8cac-8bdcf10350b2" class="">It is used within <strong>asynchronous functions (coroutines)</strong> to <strong>pause their execution</strong> until a specific operation completes.</p></details></li></ul><ul id="ace1819f-db94-4bf4-9e1c-5f00f8d31a93" class="toggle"><li><details open=""><summary><code>decorators</code></summary><p id="a616bfd8-36aa-4e7b-a3bb-49f4d8c6fb6f" class="">They are a powerful design pattern that allows you to <strong>modify the behavior of a function</strong> without permanently altering its original code. They&#x27;re essentially <strong>higher-order functions</strong> that take another function as an argument, add some functionality, and return a new function.<br/><br/></p></details></li></ul><ul id="e24bc0cc-fe77-42f8-a1df-e324b36bc63d" class="toggle"><li><details open=""><summary>Run the file</summary><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1c644b28-0647-415a-8416-e4f7d88b7444" class="code"><code class="language-PowerShell">chainlit run filename.py</code></pre></details></li></ul></div></details></div></details><details open=""><summary style="font-weight:600;font-size:1.875em;line-height:1.3;margin:0">Chat to Voice</summary><div class="indented"><p id="58da1def-453a-40fc-b197-d9098b8601f8" class="">
+</p><ul id="6f784eb5-6048-4310-95b1-bcb3713c37ac" class="toggle"><li><details open=""><summary>pyttsx3</summary><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="2b7aa201-6b38-4853-a919-baf2c5cdb95e" class="code"><code class="language-Python">import pyttsx3
+engine = pyttsx3.init()
+
+while True:
+    text = input(&quot;Enter the input String: &quot;)
+    if text == &quot;bye&quot;:
+        break
+    engine.say(text)
+    engine.runAndWait()</code></pre></details></li></ul><ul id="c3c73d4a-7509-44a5-8069-eb23c23f7bfb" class="toggle"><li><details open=""><summary>pyttsx3 in advance level</summary><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="be4e768b-7575-472e-8190-9ec574612896" class="code"><code class="language-Python">import pyttsx3
+
+def text_to_speech_male(text, rate=200):  # Adjust the rate value as needed
+    engine = pyttsx3.init()
+    voices = engine.getProperty(&#x27;voices&#x27;)
+    engine.setProperty(&#x27;voice&#x27;, voices[0].id)  # 0 for male, 1 for female
+    engine.setProperty(&#x27;rate&#x27;, rate)  # 200 words per minute by default
+    engine.say(text)
+    engine.runAndWait()
+    engine.stop()
+
+while True:
+    text = input(&quot;Enter the input String: &quot;)
+    if text == &quot;bye&quot;:
+        break
+    text_to_speech_male(text)</code></pre></details></li></ul><ul id="5eeaa720-201d-4fdb-968d-19da731df157" class="toggle"><li><details open=""><summary>gTTS</summary><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="86e7f3af-08a1-4003-82cf-33329710235c" class="code"><code class="language-Python">from gtts import gTTS
+import pygame
+
+mytext = &#x27;Welcome to ollama tutorial&#x27;
+myobj = gTTS(text=mytext, lang=&#x27;en&#x27;, slow=False)
+myobj.save(&quot;welcome.mp3&quot;)
+
+pygame.mixer.init()
+pygame.mixer.music.load(&quot;welcome.mp3&quot;)
+pygame.mixer.music.play()
+while pygame.mixer.music.get_busy():
+    pygame.time.Clock().tick(10)
+pygame.quit()  </code></pre></details></li></ul><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Using pyttsx3 in simple manner with our python code</summary><div class="indented"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="5eed0ff9-60cf-47d5-9d58-885784dfe674" class="code"><code class="language-Python">from ollama import generate
+import pyttsx3
+
+model = &quot;qwen2:0.5b&quot;
+system_instruction = &quot;You are a helpful assistant.&quot;
+chat_history = []
+
+def text_to_speech_male(text, rate=200):  # Adjust the rate value as needed
+    engine = pyttsx3.init()
+    voices = engine.getProperty(&#x27;voices&#x27;)
+    engine.setProperty(&#x27;voice&#x27;, voices[0].id)  # 0 for male, 1 for female
+    engine.setProperty(&#x27;rate&#x27;, rate)  # 200 words per minute by default
+    engine.say(text)
+    engine.runAndWait()
+    engine.stop()
+
+while True:
+    user_input = input(&quot;You: &quot;)
+
+    if user_input == &quot;&quot; or user_input == &quot;bye&quot; or user_input == &quot;exit&quot;:
+        break
+
+    response = generate(model=model, prompt=user_input, system=system_instruction, context = chat_history ,stream=False, keep_alive = 300)
+    chat_history = response[&#x27;context&#x27;]
+    print(response[&#x27;response&#x27;])
+    text_to_speech_male(response[&#x27;response&#x27;])</code></pre><p id="a8fa2475-05d6-468e-9106-6788b1af6bbb" class="">
+</p></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0"><mark class="highlight-red">Task : Use the gTTS in Chatbot of Streamlit </mark></summary><div class="indented"><ul id="6cb95d23-de1c-4409-a370-77c0080c9141" class="bulleted-list"><li style="list-style-type:disc"> </li></ul><ul id="2ffab467-73bd-431e-bdcc-7bbc570c9619" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-red"><a href="https://www.protectedtext.com/gtts_chatbot_solution">Solution</a></mark></li></ul></div></details></div></details><details open=""><summary style="font-weight:600;font-size:1.875em;line-height:1.3;margin:0">VS Code Extension </summary><div class="indented"><p id="2bcce9b6-2a63-48a5-ab3a-c7291f6fa4c7" class="">
+</p><figure class="block-color-teal_background callout" style="white-space:pre-wrap;display:flex" id="3d714fec-fe96-4c70-8e75-d5e15bb7326b"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><mark class="highlight-pink"><a href="https://codegpt.co/">CODE GPT Extension for VS Code </a></mark></div></figure><p id="67f45ca6-231c-4b3b-83bf-b356633af9e9" class="">
+</p><ul id="17210250-8e63-45d4-8dbf-580e2c4ec646" class="bulleted-list"><li style="list-style-type:disc">Use ollama in vscode</li></ul><p id="246d567a-c940-41c1-a39f-8c7c6e17b11e" class="">
+</p><ul id="33c057e4-1ba4-4a95-9d8e-7b33f99affd9" class="bulleted-list"><li style="list-style-type:disc">To install extension in VSCODE for free → <a href="https://marketplace.visualstudio.com/items?itemName=DanielSanMedium.dscodegpt&amp;ssr=false#overview">Click Here</a></li></ul><p id="aa84c53d-08e7-4962-9ec5-45069e9eeca8" class="">
+</p><ul id="c31c3ea7-f71d-42ee-9b12-ba19f9608279" class="bulleted-list"><li style="list-style-type:disc">Easy to code offline free </li></ul><p id="570bfb07-c37f-4ddc-80d3-9827f6448c7f" class="">
+</p><ul id="5a5819a3-e856-4605-8c36-119cd5bdb62f" class="bulleted-list"><li style="list-style-type:disc">It’s Free Copilot for coding </li></ul><p id="9ed9fc44-02ba-4b95-860c-9764ad609388" class="">
+</p></div></details><details open=""><summary style="font-weight:600;font-size:1.875em;line-height:1.3;margin:0">Function calling </summary><div class="indented"><ul id="e4ce601d-fed7-4f53-b319-f80d958c13c3" class="bulleted-list"><li style="list-style-type:disc">Install these<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="2ce911fb-7892-4c91-83a7-7210ecb2a21f" class="code"><code class="language-Python">pip install pydantic yfinance instructor</code></pre></li></ul><p id="cc488b9e-e327-4157-8e3b-498a119a087a" class="">
+</p><ol type="1" id="c3b108c0-bdce-4c46-ab28-42d3dfc0bc26" class="numbered-list" start="1"><li>Function Calling Simple <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="9ecfd3f4-ee89-46ce-a395-b1491439a4a4" class="code"><code class="language-Python">from openai import OpenAI
+from pydantic import BaseModel, Field
+import instructor
+from datetime import datetime 
+
+day = &quot;Todays&quot;
+current_datetime = datetime.now()
+
+class DateTimeInfo(BaseModel):
+    date: str = Field(..., description=&quot;Today&#x27;s date&quot;)
+    time: str = Field(..., description=&quot;Today&#x27;s time&quot;)
+
+# enables `response_model` in create call
+client = instructor.patch(
+    OpenAI(
+        base_url=&quot;http://localhost:11434/v1&quot;,
+        api_key=&quot;ollama&quot;,
+    ),
+    mode=instructor.Mode.JSON,
+)
+
+resp = client.chat.completions.create(
+    model=&quot;llama3&quot;,
+    messages=[
+        {
+            &quot;role&quot;: &quot;user&quot;,
+            &quot;content&quot;: f&quot;From this {current_datetime} Return the date in d-m-y and time in H:M:S of {day}.&quot;
+        }
+    ],
+    response_model=DateTimeInfo,
+    max_retries=10
+)
+print(resp.model_dump_json(indent=2))
+
+print(f&quot;Todays date is {resp.date} and time is {resp.time}&quot;)</code></pre></li></ol><p id="f977c406-13cd-4272-8679-b93eb530846a" class="">
+</p><ol type="1" id="5388cf9a-a2c7-40a1-95af-440e24f29ee1" class="numbered-list" start="2"><li>Function Calling Example Advanced : <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="4245a022-8f86-4c74-bbad-73854c0db3bd" class="code"><code class="language-Python">from openai import OpenAI
+from pydantic import BaseModel, Field
+import yfinance as yf
+import instructor
+
+company = &quot;Google&quot;
+
+class StockInfo(BaseModel):
+    company: str = Field(..., description=&quot;Name of the company&quot;)
+    ticker: str = Field(..., description=&quot;Ticker symbol of the company&quot;)
+
+# enables `response_model` in create call
+client = instructor.patch(
+    OpenAI(
+        base_url=&quot;http://localhost:11434/v1&quot;,
+        api_key=&quot;ollama&quot;,
+    ),
+    mode=instructor.Mode.JSON,
+)
+
+resp = client.chat.completions.create(
+    model=&quot;llama3&quot;,
+    messages=[
+        {
+            &quot;role&quot;: &quot;user&quot;,
+            &quot;content&quot;: f&quot;Return the company name and the ticker symbol of the {company}.&quot;
+        }
+    ],
+    response_model=StockInfo,
+    max_retries=10
+)
+print(resp.model_dump_json(indent=2))
+stock = yf.Ticker(resp.ticker)
+hist = stock.history(period=&quot;1d&quot;)
+stock_price = hist[&#x27;Close&#x27;].iloc[-1]
+print(f&quot;The stock price of the {resp.company} is {stock_price}. USD&quot;)</code></pre></li></ol></div></details><details open=""><summary style="font-weight:600;font-size:1.875em;line-height:1.3;margin:0"><mark class="highlight-pink">Extras Advanced</mark></summary><div class="indented"><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">All commands</summary><div class="indented"><p id="9f1b11a7-d83c-43ad-89d5-59cfeeeba6f0" class="">
+</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="5a596ee1-f1e7-436b-868a-e3e06e34e684" class="code"><code class="language-Python">import ollama
+
+# Chat function
+response = ollama.chat(model=&#x27;mistral&#x27;, messages=[{&#x27;role&#x27;: &#x27;user&#x27;, &#x27;content&#x27;: &#x27;Why is the sky blue?&#x27;}])
+print(&quot;Chat response:&quot;, response[&#x27;message&#x27;][&#x27;content&#x27;])
+
+# Generate function
+generate_response = ollama.generate(model=&#x27;mistral&#x27;, prompt=&#x27;Why is the sky blue?&#x27;)
+print(&quot;Generate response:&quot;, generate_response[&#x27;response&#x27;])
+
+# List function
+models_list = ollama.list()
+print(&quot;List of models:&quot;, models_list)
+
+# Show function
+show_response = ollama.show(&#x27;mistral&#x27;)
+print(&quot;Show model response:&quot;, show_response)
+
+# Create function
+modelfile = &#x27;&#x27;&#x27;
+FROM mistral
+SYSTEM You are Mario from Super Mario Bros.
+&#x27;&#x27;&#x27;
+create_response = ollama.create(model=&#x27;example&#x27;, modelfile=modelfile)
+print(&quot;Create model response:&quot;, create_response)
+
+# Copy function
+copy_response = ollama.copy(&#x27;mistral&#x27;, &#x27;user/mistral&#x27;)
+print(&quot;Copy model response:&quot;, copy_response)
+
+# Delete function
+delete_response = ollama.delete(&#x27;example&#x27;)
+print(&quot;Delete model response:&quot;, delete_response)
+
+# Pull function
+pull_response = ollama.pull(&#x27;mistral&#x27;)
+print(&quot;Pull model response:&quot;, pull_response)
+
+# Push function
+push_response = ollama.push(&#x27;user/mistral&#x27;)
+print(&quot;Push model response:&quot;, push_response)
+
+# Embeddings function
+embeddings_response = ollama.embeddings(model=&#x27;mistral&#x27;, prompt=&#x27;The sky is blue because of Rayleigh scattering&#x27;)
+print(&quot;Embeddings response:&quot;, embeddings_response)</code></pre><p id="6649af64-41a1-402f-a277-48ea4e1a0786" class="">
+</p><ul id="ee0a42da-f520-4aba-a2bd-be72573235bb" class="bulleted-list"><li style="list-style-type:disc">For image </li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="758f559a-9454-43b1-881e-1669f1bd16d5" class="code"><code class="language-Python">import ollama
+
+with open(&#x27;image.jpeg&#x27;, &#x27;rb&#x27;) as file:
+  response = ollama.chat(
+    model=&#x27;llava&#x27;,
+    messages=[
+      {
+        &#x27;role&#x27;: &#x27;user&#x27;,
+        &#x27;content&#x27;: &#x27;What is in this image?&#x27;,
+        &#x27;images&#x27;: [file.read()],
+      },
+    ],
+  )
+print(response[&#x27;message&#x27;][&#x27;content&#x27;])</code></pre></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Crew AI</summary><div class="indented"><p id="58fc180e-fa1b-4044-80b2-74a20a14be82" class="">
+</p><ul id="b450bc18-b8be-4162-995a-fb889524aff3" class="bulleted-list"><li style="list-style-type:disc"><strong>Building Multi-Agent Systems:</strong> <ul id="480cb916-39d5-4017-8ae5-ffea59c26a06" class="bulleted-list"><li style="list-style-type:circle">CrewAI provides a framework for building teams of AI agents that can work together to tackle complex tasks. </li></ul><ul id="8edf0124-e007-4a1f-b09a-5ffef9a4601f" class="bulleted-list"><li style="list-style-type:circle">You can define specific roles, goals, and even backstories for each agent in your &quot;crew.&quot; </li></ul><ul id="aae2c8e1-a915-4ba1-8203-ef9dcc394421" class="bulleted-list"><li style="list-style-type:circle">This allows you to automate complex, multi-step processes like tailoring a resume for a job application or planning an event.</li></ul></li></ul><ul id="215bdac4-df9c-4bd6-b1e3-6c7f22fc169e" class="bulleted-list"><li style="list-style-type:disc"><strong>AI-powered Recruiting:</strong> <ul id="4df5152d-019b-47ec-b3fa-a43bbbeea61d" class="bulleted-list"><li style="list-style-type:circle">There is also a separate platform called Crew AI that uses AI to help with recruiting and HR tasks. </li></ul><ul id="cbb1b123-43e2-4d32-ba8a-bfa823209fb7" class="bulleted-list"><li style="list-style-type:circle">This platform focuses on finding and hiring pre-vetted software talent. </li></ul><ul id="c9c7738d-bb24-4cef-8b48-f998c0ce84de" class="bulleted-list"><li style="list-style-type:circle">It&#x27;s important to distinguish between these two uses of the term &quot;CrewAI&quot; based on the context.</li></ul></li></ul><p id="7a5af69c-8235-4731-bbd0-703d0615016a" class="">
+</p><ul id="696e3032-d96a-45f5-8701-2e7d7f00be74" class="toggle"><li><details open=""><summary>Simple </summary><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="5e52e323-1184-4fc4-9984-a23c8d276c61" class="code"><code class="language-Python">from crewai import Agent, Task, Crew
+from langchain_openai import ChatOpenAI
+
+# Initialize the language model with specific configurations
+llm = ChatOpenAI(
+    model=&quot;mistral&quot;,
+    base_url=&quot;http://localhost:11434/v1&quot;,
+    openai_api_key=&#x27;NA&#x27;
+)
+
+# Define agents with specific roles and goals
+legal_researcher_agent = Agent(
+    role=&quot;Legal Research Specialist&quot;,
+    goal=&quot;Provide accurate and relevant legal information&quot;,
+    backstory=(
+        &quot;You work at a law firm and are tasked with &quot;
+        &quot;conducting research for a case involving {topic}. &quot;
+        &quot;Your expertise will help the legal team build a strong argument.&quot;
+    ),
+    allow_delegation=False,
+    verbose=True,
+    llm=llm
+)
+
+legal_writer_agent = Agent(
+    role=&quot;Legal Document Drafter&quot;,
+    goal=&quot;Craft clear and persuasive legal documents&quot;,
+    backstory=(
+        &quot;You are a legal writer responsible for drafting &quot;
+        &quot;a legal brief on {topic} for an upcoming court case. &quot;
+        &quot;Your document must be well-researched, concise, and compelling.&quot;
+    ),
+    allow_delegation=False,
+    verbose=True,
+    llm=llm
+)
+
+# Define tasks for the agents to perform
+conduct_legal_research = Task(
+    description=(
+        &quot;1. Investigate relevant laws, regulations, and precedents.\n&quot;
+        &quot;2. Analyze legal articles, journals, and expert opinions.\n&quot;
+        &quot;3. Identify key points and arguments related to {topic}.\n&quot;
+        &quot;4. Organize and summarize findings in a clear and concise manner.&quot;
+    ),
+    expected_output=(
+        &quot;A comprehensive legal research report &quot;
+        &quot;including relevant sources and key points.&quot;
+    ),
+    agent=legal_researcher_agent
+)
+
+draft_legal_brief = Task(
+    description=(
+        &quot;1. Use the research report to draft a clear and persuasive brief.\n&quot;
+        &quot;2. Include an introduction, argument, and conclusion.\n&quot;
+        &quot;3. Ensure the brief is well-structured and easy to follow.\n&quot;
+        &quot;4. Proofread for grammar, punctuation, and legal accuracy.&quot;
+    ),
+    expected_output=(
+        &quot;A well-written legal brief in markdown format, &quot;
+        &quot;ready for submission to the legal team.&quot;
+    ),
+    agent=legal_writer_agent
+)
+
+# Initialize the crew with agents and tasks
+crew = Crew(
+    agents=[legal_researcher_agent, legal_writer_agent],
+    tasks=[conduct_legal_research, draft_legal_brief],
+    verbose=2
+)
+
+# Start the workflow with a specific input
+result = crew.kickoff(inputs={&quot;topic&quot;: &quot;Employment Law and Discrimination&quot;})
+</code></pre></details></li></ul><p id="46848a3d-c9d2-46e2-9870-32e99e789b13" class="">
+</p><ul id="5f2186e5-e8cc-4883-ad4d-2d5b218faf88" class="toggle"><li><details open=""><summary>Advanced </summary><ol type="1" id="23a11fdc-fe22-4b35-aa52-da4f79801d45" class="numbered-list" start="1"><li><strong><a href="http://MarkdownTools.py">MarkdownTools.py</a></strong><strong> file</strong></li></ol><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="fd6f0b4e-22e2-4da0-9384-431724af5758" class="code"><code class="language-Python">import os
+import sys
+from langchain.tools import tool
+from pymarkdown.api import PyMarkdownApi, PyMarkdownApiException
+
+@tool(&quot;markdown_validation_tool&quot;)
+def markdown_validation_tool(file_path: str) -&gt; str:
+    print(&quot;\n\nValidating Markdown syntax...\n\n&quot; + file_path)
+
+    scan_result = None
+    try:
+        if not (os.path.exists(file_path)):
+           return &quot;Could not validate file. The provided file path does not exist.&quot;
+
+        scan_result = PyMarkdownApi().scan_path(file_path.rstrip().lstrip())
+        results = str(scan_result)    
+        return results  # Return the reviewed document
+    except PyMarkdownApiException as this_exception:
+        print(f&quot;API Exception: {this_exception}&quot;, file=sys.stderr)
+        return f&quot;API Exception: {str(this_exception)}&quot;
+  </code></pre><ol type="1" id="3f43df90-6196-4582-9c9b-72566ef0bde3" class="numbered-list" start="2"><li><code>.env</code> file</li></ol><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="a50e1cbb-6c31-43dc-998e-16a025b93d00" class="code"><code class="language-Python"># Using OpenAI&#x27;s API
+# OPENAI_API_KEY=&quot;sk-...&quot;
+# MODEL_NAME=&quot;gpt-3.5-turbo&quot;
+
+# Using Ollama
+MODEL_NAME=&#x27;llama3&#x27;
+OPENAI_API_BASE_URL=&quot;http://localhost:11434/v1&quot;
+OPENAI_API_KEY=&#x27;ollama&#x27;</code></pre><ol type="1" id="7e24b49a-9c11-4867-825d-47bff6f3e2ef" class="numbered-list" start="3"><li><strong><a href="http://main.py">main.py</a></strong><strong> file</strong></li></ol><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="7a628591-f75b-4f1a-913d-9cb36cc898de" class="code"><code class="language-Python">import sys
+from crewai import Agent, Task
+import os
+from dotenv import load_dotenv
+from langchain.tools import tool
+from langchain.chat_models.openai import ChatOpenAI
+from pymarkdown.api import PyMarkdownApi, PyMarkdownApiException
+from MarkdownTools import markdown_validation_tool
+
+load_dotenv()
+
+defalut_llm = ChatOpenAI(openai_api_base=os.environ.get(&quot;OPENAI_API_BASE_URL&quot;, &quot;https://api.openai.com/v1&quot;),
+                        openai_api_key=os.environ.get(&quot;OPENAI_API_KEY&quot;),
+                        temperature=0.1,                        
+                        model_name=os.environ.get(&quot;MODEL_NAME&quot;, &quot;gpt-3.5-turbo&quot;),
+                        top_p=0.3)
+
+
+
+def process_markdown_document(filename):
+    # Define general agent
+    general_agent  = Agent(role=&#x27;Requirements Manager&#x27;,
+                    goal=&quot;&quot;&quot;Provide a detailed list of the markdown 
+                            linting results. Give a summary with actionable 
+                            tasks to address the validation results. Write your 
+                            response as if you were handing it to a developer 
+                            to fix the issues.
+                            DO NOT provide examples of how to fix the issues or
+                            recommend other tools to use.&quot;&quot;&quot;,
+                    backstory=&quot;&quot;&quot;You are an expert business analyst 
+					and software QA specialist. You provide high quality, 
+                    thorough, insightful and actionable feedback via 
+                    detailed list of changes and actionable tasks.&quot;&quot;&quot;,
+                    allow_delegation=False, 
+                    verbose=True,
+                    tools=[markdown_validation_tool],
+                    llm=defalut_llm)
+
+
+    # Define Tasks Using Crew Tools
+    syntax_review_task = Task(description=f&quot;&quot;&quot;
+			Use the markdown_validation_tool to review 
+			the file(s) at this path: {filename}
+            
+			Be sure to pass only the file path to the markdown_validation_tool.
+			Use the following format to call the markdown_validation_tool:
+			Do I need to use a tool? Yes
+			Action: markdown_validation_tool
+			Action Input: {filename}
+
+			Get the validation results from the tool 
+			and then summarize it into a list of changes
+			the developer should make to the document.
+            DO NOT recommend ways to update the document.
+            DO NOT change any of the content of the document or
+            add content to it. It is critical to your task to
+            only respond with a list of changes.
+			
+			If you already know the answer or if you do not need 
+			to use a tool, return it as your Final Answer.&quot;&quot;&quot;,
+            agent=general_agent)
+    
+    updated_markdown = syntax_review_task.execute()
+
+    return updated_markdown
+
+# If called directly from the command line take the first argument as the filename
+if __name__ == &quot;__main__&quot;:
+    if len(sys.argv) &gt; 1:
+        filename = sys.argv[1]
+        processed_document = process_markdown_document(filename)
+        print(processed_document)</code></pre><ol type="1" id="60c164aa-ce88-4052-9eae-2821fe264969" class="numbered-list" start="4"><li>pyproject.toml</li></ol><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="b4e03354-8619-4fa9-865f-ba158afa8451" class="code"><code class="language-Python">[tool.poetry]
+name = &quot;markdown-validation-crew&quot;
+version = &quot;0.1.0&quot;
+description = &quot;&quot;
+authors = [&quot;ITLackey &lt;itlackey@gmail.com&gt;&quot;]
+
+[tool.poetry.dependencies]
+python = &quot;&gt;=3.10.0,&lt;3.12&quot;
+crewai = &quot;^0.11.0&quot;
+python-dotenv = &quot;1.0.0&quot;
+markdown = &quot;3.4.3&quot;
+pymarkdownlnt = &quot;0.9.15&quot;
+
+[tool.pyright]
+# https://github.com/microsoft/pyright/blob/main/docs/configuration.md
+useLibraryCodeForTypes = true
+exclude = [&quot;.cache&quot;]
+
+[tool.ruff]
+# https://beta.ruff.rs/docs/configuration/
+select = [&#x27;E&#x27;, &#x27;W&#x27;, &#x27;F&#x27;, &#x27;I&#x27;, &#x27;B&#x27;, &#x27;C4&#x27;, &#x27;ARG&#x27;, &#x27;SIM&#x27;]
+ignore = [&#x27;W291&#x27;, &#x27;W292&#x27;, &#x27;W293&#x27;]
+
+[build-system]
+requires = [&quot;poetry-core&gt;=1.0.0&quot;]
+build-backend = &quot;poetry.core.masonry.api&quot;</code></pre></details></li></ul><ul id="91d7ef5b-a4de-49dc-9643-9b430b7e7a44" class="toggle"><li><details open=""><summary>Process of Running </summary><ul id="50a6a377-06e0-46ad-9c6c-2b06b4a0ac91" class="bulleted-list"><li style="list-style-type:disc"><strong>Configure Environment</strong>: Copy ``.env.example` and set up the environment variables the model, endpoint url, and api key.</li></ul><ul id="6e58d9b5-3819-4940-983d-dae3104c0a46" class="bulleted-list"><li style="list-style-type:disc"><strong>Install Dependencies</strong>: Run <code>poetry install --no-root</code>.</li></ul><ul id="b6362cf4-9465-4f9e-bb31-0d8627b3cb23" class="bulleted-list"><li style="list-style-type:disc"><strong>Running the Script</strong>: Execute <code>python main.py &lt;path to markdown file&gt;</code>. The script will leverage the CrewAI framework to process the specified file and return a list of changes.<ul id="a21dc280-16e3-4b5b-ba28-4e34b6b1bc18" class="bulleted-list"><li style="list-style-type:circle"><strong>Execute the Script</strong>: Run <code>python main.py README.md</code></li></ul></li></ul></details></li></ul></div></details><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Rags for PDF</summary><div class="indented"><p id="74b8118c-484c-40be-8b58-89afef0b48d7" class="">
+</p><h2 id="4ca6b2df-b9cf-4f6f-aefc-43cc572ff2c5" class="">Library</h2><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="83aa41be-6607-49e5-8728-72cf12f893dd" class="code"><code class="language-Python">pip install langchain beautifulsoup4 chromadb gradio ollama</code></pre><p id="a7e85bf1-24d0-4a51-9c8a-625612cd9119" class="">
+</p><h2 id="c20e6b60-c055-42a4-81bd-0de62053a76b" class="">Code </h2><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="592cb91f-4ba6-44ec-a035-e68ac2b2d416" class="code"><code class="language-Python">import gradio as gr
+import bs4
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_community.document_loaders import WebBaseLoader
+from langchain_community.vectorstores import Chroma
+from langchain_community.embeddings import OllamaEmbeddings
+import ollama
+
+# Function to load, split, and retrieve documents
+def load_and_retrieve_docs(url):
+    loader = WebBaseLoader(
+        web_paths=(url,),
+        bs_kwargs=dict() 
+    )
+    docs = loader.load()
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+    splits = text_splitter.split_documents(docs)
+    embeddings = OllamaEmbeddings(model=&quot;mistral&quot;)
+    vectorstore = Chroma.from_documents(documents=splits, embedding=embeddings)
+    return vectorstore.as_retriever()
+
+# Function to format documents
+def format_docs(docs):
+    return &quot;\n\n&quot;.join(doc.page_content for doc in docs)
+
+# Function that defines the RAG chain
+def rag_chain(url, question):
+    retriever = load_and_retrieve_docs(url)
+    retrieved_docs = retriever.invoke(question)
+    formatted_context = format_docs(retrieved_docs)
+    formatted_prompt = f&quot;Question: {question}\n\nContext: {formatted_context}&quot;
+    response = ollama.chat(model=&#x27;mistral&#x27;, messages=[{&#x27;role&#x27;: &#x27;user&#x27;, &#x27;content&#x27;: formatted_prompt}])
+    return response[&#x27;message&#x27;][&#x27;content&#x27;]
+
+# Gradio interface
+iface = gr.Interface(
+    fn=rag_chain,
+    inputs=[&quot;text&quot;, &quot;text&quot;],
+    outputs=&quot;text&quot;,
+    title=&quot;RAG Chain Question Answering&quot;,
+    description=&quot;Enter a URL and a query to get answers from the RAG chain.&quot;
+)
+
+# Launch the app
+iface.launch()</code></pre><p id="e4990836-6e29-439e-b76c-a1ed1fa4d01f" class="">
+</p><h2 id="15f9aea6-5b37-486f-a283-38cbcf7d1e44" class="">Output </h2><figure id="72cb7171-f949-48db-bf37-fdcc5a9e32a2" class="image"><a href="Ollama%20877eaf397480429487a43809d9598165/Untitled%2015.png"><img style="width:1267px" src="Ollama%20877eaf397480429487a43809d9598165/Untitled%2015.png"/></a></figure></div></details></div></details></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
